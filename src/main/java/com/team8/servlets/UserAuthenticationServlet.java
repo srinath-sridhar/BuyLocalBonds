@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.team8.dao.UserAuthenticationDao;
+
 /**
  * Servlet implementation class UserAuthentication
  */
@@ -33,55 +35,29 @@ public class UserAuthenticationServlet extends HttpServlet {
 	 */
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 
 		PrintWriter pw = response.getWriter();
 
-		ResultSet rs = null;
-
 		try {
-			if (username == null || password == null) {
-				pw.print("fail");
-				pw.close();
-				return;
-			}
-
 			Class.forName("com.mysql.jdbc.Driver");
-
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/blbdata","root","");
-			Statement st = conn.createStatement();
-			rs = st.executeQuery("select * from accounts where UserName = '" + username + "'");
-
-
-			while(rs!=null && rs.next()){
-				if(username.equals(rs.getString(2))){
-					if(password.equals(rs.getString(3))) { 
-						//response.setContentType("application/json");						
-						HttpSession session = request.getSession();
-						session.setAttribute("user", rs.getInt(1));
-						pw.write("success");
-						pw.close();
-						return;
-					}
-					else
-					{
-						//response.sendRedirect("/BLB8");
-						pw.write("fail");
-						pw.close();
-						return;
-					}
-				}
-
+			UserAuthenticationDao dao = new UserAuthenticationDao();
+			dao.setDatabaseConnection(conn);
+			if(dao.isUserAuthenticated(username, password))
+			{
+				pw.write("success");
 			}
-		} catch (Exception e) {
-
+			else {
+				pw.write("fail");
+			}
+			pw.close();
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 		}
-		//request.getRequestDispatcher("/").forward(request, response);
-		pw.write("fail");
-		pw.close();		
+		
 	}
-
 }
