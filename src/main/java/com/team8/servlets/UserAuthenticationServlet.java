@@ -36,17 +36,17 @@ public class UserAuthenticationServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
+//		String username = request.getParameter("username");
+//		String password = request.getParameter("password");
 
 		PrintWriter pw = response.getWriter();
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/blbdata","root","");
+//			Class.forName("com.mysql.jdbc.Driver");
+//			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/blbdata","root","");
 			UserAuthenticationDao dao = new UserAuthenticationDao();
-			dao.setDatabaseConnection(conn);
-			if(dao.isUserAuthenticated(username, password))
+//			dao.setDatabaseConnection(conn);
+			if(dao.isUserAuthenticated(request))
 			{
 				pw.write("success");
 			}

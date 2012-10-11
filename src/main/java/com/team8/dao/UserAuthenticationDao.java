@@ -5,18 +5,28 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpServletRequest;
+
+import com.team8.utils.DataBaseConnectionUtil;
+
 public class UserAuthenticationDao {
 
 	private Connection databaseConnection = null;
+	
+	public UserAuthenticationDao() {
+		databaseConnection = DataBaseConnectionUtil.getDatabaseConnection();
+	}
 
 	public Connection getDatabaseConnection() {
 		return databaseConnection;
 	}
 
-	public void setDatabaseConnection(Connection databaseConnection) {
-		this.databaseConnection = databaseConnection;
+	public boolean isUserAuthenticated(HttpServletRequest request) throws SQLException {
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		return isUserAuthenticated(username, password);
+		
 	}
-
 	public boolean isUserAuthenticated(String username, String password) throws SQLException {
 		if(databaseConnection == null) {
 			return false;

@@ -38,8 +38,7 @@ public class MarketServlet extends HttpServlet {
         bondsList.add(new Bond());
         bondsList.add(new Bond());
         bondsList.add(new Bond());
-        bondsList.add(new Bond());
-        
+        bondsList.add(new Bond());        
         
     }
 
@@ -48,11 +47,7 @@ public class MarketServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		HttpSession httpSession = request.getSession();
-		
-		System.out.println(httpSession.getId() +"  "+ httpSession.getCreationTime());
-		response.setContentType("application/json");
-		
+		response.setContentType("application/json");		
 		PrintWriter out = response.getWriter();
 		Gson gson = new Gson();
 		out.print(gson.toJson(bondsList));
