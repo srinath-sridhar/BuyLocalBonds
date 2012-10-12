@@ -6,10 +6,12 @@ import com.team8.utils.EncryptionUtil;
 
 public class Bond {
 	
-	String cusip, rating;
-	double coupon, price;
-	Date maturityDate;
-	int quantityAvailable;
+	private String cusip;
+	private String rating;
+	private double coupon, price;
+	private double yieldToMaturity, currentYield;
+	private Date maturityDate;
+	private int quantityAvailable;
 	
 	public Bond() {
 		
@@ -20,6 +22,15 @@ public class Bond {
 		price = Math.round((Math.random() * 10 + 95) * 100000) / 100000.0;
 		quantityAvailable = (int) (Math.random() * 50) * 5;
 		maturityDate = new Date();				
+	}
+	
+	public Bond(String cusip) {
+		this.cusip = cusip;
+		rating = "AAA";		
+		coupon = Math.round((Math.random() * 0.15 + 0.01) * 100) / 100.0;
+		price = Math.round((Math.random() * 10 + 95) * 100000) / 100000.0;
+		quantityAvailable = (int) (Math.random() * 50) * 5;
+		maturityDate = new Date();
 	}
 
 }

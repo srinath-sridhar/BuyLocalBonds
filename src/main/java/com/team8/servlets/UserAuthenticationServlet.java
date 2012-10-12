@@ -2,11 +2,6 @@ package com.team8.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.team8.dao.UserAuthenticationDao;
+import com.team8.model.User;
 
 /**
  * Servlet implementation class UserAuthentication
@@ -36,18 +32,19 @@ public class UserAuthenticationServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-//		String username = request.getParameter("username");
-//		String password = request.getParameter("password");
-
+		response.setContentType("text/plain");
 		PrintWriter pw = response.getWriter();
 
 		try {
-//			Class.forName("com.mysql.jdbc.Driver");
-//			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/blbdata","root","");
+
 			UserAuthenticationDao dao = new UserAuthenticationDao();
-//			dao.setDatabaseConnection(conn);
-			if(dao.isUserAuthenticated(request))
+			User user = dao.isUserAuthenticated(request.getParameterMap());
+			if(user != null)
 			{
+				HttpSession session = request.getSession();
+				session.setAttribute("username", user.getUserName());
+				session.setAttribute("userId", user.getUserId());
+				session.setAttribute("accountType", user.getAccountType());
 				pw.write("success");
 			}
 			else {
@@ -58,6 +55,6 @@ public class UserAuthenticationServlet extends HttpServlet {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 }

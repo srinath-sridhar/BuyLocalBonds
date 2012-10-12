@@ -1,0 +1,128 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Buy Local Bonds - TEAM 8</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="lib/css/bootstrap.css" rel="stylesheet">
+	<style>
+      body {
+        padding-top: 20px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="lib/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="lib/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="lib/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="lib/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="lib/ico/apple-touch-icon-57-precomposed.png">
+  </head>
+
+  <body>
+
+    <div class="container">
+    
+    <div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+ 
+      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+ 
+      <!-- Be sure to leave the brand out there if you want it shown -->
+      <a class="brand" href="#">Buy Local Bonds</a>
+ 
+      <!-- Everything you want hidden at 940px or less, place within here -->
+      <div class="nav-collapse">
+         <ul class="nav">
+           <li><a href="#">Home</a></li>
+           <li class="active"><a href="#">Buy</a></li>
+           <li><a href="#">Sell</a></li>
+           <li><a href="#">Holding</a></li>
+         </ul>
+         <form class="navbar-search pull-right" action="">
+           <input type="text" class="search-query span2" placeholder="Search">
+         </form>
+         <ul class="nav pull-right">
+           <li class="dropdown">
+             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+             <ul class="dropdown-menu">
+               <li><a href="#">Action</a></li>
+               <li><a href="#">Another action</a></li>
+               <li><a href="#">Something else here</a></li>
+               <li class="divider"></li>
+               <li><a href="#">Separated link</a></li>
+             </ul>
+           </li>
+           <li class="divider-vertical"></li>
+         </ul>
+    	</div>
+ 
+    </div>
+  </div>
+</div>
+		
+		<table class="table table-striped" id="bond_market_data">
+			<thead>
+			<tr>
+				<th>ACTION</th>
+				<th>CUSIP</th>
+				<th>RATING</th>
+				<th>COUPON (%)</th>
+				<th>CURRENT YIELD (%)</th>
+				<th>YIELD TO MATURITY (%)</th>
+				<th>MATURITY DATE</th>
+				<th style="text-align: right;">PRICE ($)</th>
+				<th style="text-align: right;">QTY AVAIL.</th>
+			</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="lib/js/jquery.js"></script>
+    <script src="lib/js/bootstrap.js"></script>
+	
+	<script>
+	$(function() {
+		
+		$.getJSON("/BLB8/Market", function(marketData) {
+			$.each(marketData, function(key) {
+				$('#bond_market_data > tbody:last').append('<tr id="row_' + key + '"></tr>');
+				$('#row_'+key).append('<td><a href="#"  class="btn btn-mini">BUY</a></td>');
+				
+				$('#row_'+key).append('<td>'+marketData[key].cusip+'</td>');
+				$('#row_'+key).append('<td>'+marketData[key].rating+'</td>');
+				$('#row_'+key).append('<td>'+marketData[key].coupon.toFixed(2)+'</td>');
+				$('#row_'+key).append('<td>###</td>');
+				$('#row_'+key).append('<td>###</td>');
+				$('#row_'+key).append('<td>'+marketData[key].maturityDate+'</td>');
+				$('#row_'+key).append('<td style="text-align: right;">'+marketData[key].price.toFixed(2)+'</td>');
+				$('#row_'+key).append('<td style="text-align: right;">'+marketData[key].quantityAvailable+'</td>');
+				
+			});
+		});
+
+	});
+
+	</script>
+  </body>
+</html>

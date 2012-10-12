@@ -1,49 +1,6 @@
 <%@ include file="_header.jsp" %>
 <div class="container">
- <div class="navbar">
-  <div class="navbar-inner">
-   <div class="container">
- 
-      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
-      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </a>
- 
-      <!-- Be sure to leave the brand out there if you want it shown -->
-      <a class="brand" href="#">Buy Local Bonds</a>
- 
-      <!-- Everything you want hidden at 940px or less, place within here -->
-      <div class="nav-collapse">
-         <ul class="nav">
-           <li><a href="#">Home</a></li>
-           <li class="active"><a href="#">Buy</a></li>
-           <li><a href="#">Sell</a></li>
-           <li><a href="#">Holding</a></li>
-         </ul>
-         <form class="navbar-search pull-right" action="">
-           <input type="text" class="search-query span2" placeholder="Search">
-         </form>
-         <ul class="nav pull-right">
-           <li class="dropdown">
-             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-             <ul class="dropdown-menu">
-               <li><a href="#">Action</a></li>
-               <li><a href="#">Another action</a></li>
-               <li><a href="#">Something else here</a></li>
-               <li class="divider"></li>
-               <li><a href="#">Separated link</a></li>
-             </ul>
-           </li>
-           <li class="divider-vertical"></li>
-         </ul>
-    	</div>
- 
-    </div>
-  </div>
-</div>
-
+<%@include file="_menu.jsp" %>
 
 <div class="row">
   <div class="span10">
@@ -77,6 +34,8 @@
     </div> <!-- /container -->
     
 <%@ include file="_modal_buy.jsp" %>
+
+<%@ include file="_modal_search.jsp" %>
     
    <!-- Le javascript
    ================================================== -->
@@ -85,13 +44,12 @@
    <script src="lib/js/bootstrap.js"></script>
    
 <script>
-$(function() {
+$(document).ready(function() {
 	
-	$.getJSON("/BuyLocalBonds/Market", function(marketData) {
+	$.getJSON("Market", function(marketData) {
 		$.each(marketData, function(key) {
 			$('#bond_market_data > tbody:last').append('<tr id="row_' + key + '"></tr>');
-			$('#row_'+key).append('<td><a class="btn btn-mini"  href="#buyModal" role="button" data-toggle="modal">BUY</a></td>');
-			
+			$('#row_'+key).append('<td class="action_buttons"><a class="buybutton" href="#buyModal" role="button" data-toggle="modal" data-id="'+marketData[key].cusip+'">BUY</a></td>');
 			$('#row_'+key).append('<td>'+marketData[key].cusip+'</td>');
 			$('#row_'+key).append('<td class="hidden-800">'+marketData[key].rating+'</td>');
 			$('#row_'+key).append('<td>'+marketData[key].coupon.toFixed(2)+'%</td>');
@@ -103,17 +61,42 @@ $(function() {
 			
 		});
 	});
-
+	
 	$('#buyModal').modal({
 		backdrop : true,
 		show : false
 	});
+	
+	$('#searchModal').modal({
+		backdrop : true,
+		show : false
+	});
+	
 	
 	$('#thcusip').tooltip({ placement : "bottom",  title : "Uniform Security Identification Number" });
 	$('#thcoupon').tooltip({ placement : "bottom", title: "Coupon"});
 	$('#thytm').tooltip({ placement : "bottom", title: "Yield to Maturity"});
 	$('#thquantity').tooltip({ placement : "bottom", title: "Available Quantity"});
 });
+
+
+$(document).on("click", ".buybutton", function () {
+
+	$('#buy_cusip').html($(this).data('id'));
+	
+	$.getJSON("Market?cusip="+$(this).data('id'), function(marketData) {
+		$('#buy_cusip').html(marketData.cusip);
+		$('#buy_rating').html(marketData.rating);
+		$('#buy_currentYield').html(marketData.currentYield);
+		$('#buy_yieldToMaturity').html(marketData.yieldToMaturity);
+		$('#buy_maturityDate').html(marketData.cusip);
+		$('#buy_quantityAvailable').html(marketData.cusip);
+	});
+	
+	
+
+});
+
 
 </script>
 
