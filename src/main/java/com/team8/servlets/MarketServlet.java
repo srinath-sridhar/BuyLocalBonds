@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.team8.model.Bond;
+import com.team8.responses.BondSearchResponse;
 
 /**
  * Servlet implementation class Market
@@ -49,16 +50,27 @@ public class MarketServlet extends HttpServlet {
 
 		response.setContentType("application/json");		
 		PrintWriter out = response.getWriter();
+		HttpSession session = request.getSession();
+		System.out.println(session.getAttribute("username"));
+		if(session.getAttribute("username") == null) {
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			return;
+		}
+		
+		
 		String cusip = (String)request.getParameter("cusip");
 		Gson gson = new Gson();
 
 		if(cusip != null) {
+			List<Bond> bonds = new ArrayList<Bond>();
+			bonds.add(new Bond(cusip));
 			System.out.println(request.getSession().getAttribute("username") +" buys "+ cusip);
-			out.print(gson.toJson(new Bond(cusip)));
+			BondSearchResponse bsr = new BondSearchResponse(bonds, 200, "OK");
+			out.print(gson.toJson(bsr));
 			out.close();
 		}
 
-		out.print(gson.toJson(bondsList));
+		out.print(gson.toJson(new BondSearchResponse(bondsList, 200, "OK")));
 		out.close();
 
 	}
@@ -67,7 +79,7 @@ public class MarketServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		doGet(request, response);
 	}
 
 }

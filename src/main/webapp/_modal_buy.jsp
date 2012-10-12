@@ -29,18 +29,22 @@
 	  <div class="span3">Quantity Available: </div>
 	  <div class="span2" id="buy_quantityAvailable">1000</div>
 	</div>
+	<div class="controls controls-row">
+	  <div class="span3">Par Value: </div>
+	  <div class="span2" id="buy_parValue">1000</div>
+	</div>
 	<hr />
 	<div class="controls controls-row">
 	  <label class="span3">Quantity to Buy: </label>
-	  <input class="span2" type="text" placeholder="Quantity to Buy" name="quantity" />
+	  <input class="span2" type="text" placeholder="Quantity to Buy" id="buy_quantity" name="buy_quantity" />
 	</div>
 	<div class="controls controls-row" style="padding-bottom: 15px;">
 	  <div class="span3">Purchase Amount: </div>
-	  <div class="span2" id="buy_purchaseAmount">1000</div>
+	  <div class="span2" id="buy_purchaseAmount"></div>
 	</div>
 </div>
 <div class="modal-footer">
 <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-<button class="btn btn-primary">Save changes</button>
+<button class="btn btn-primary">Submit Purchase Order</button>
 </div>
 </div>
