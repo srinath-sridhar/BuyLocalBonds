@@ -70,20 +70,29 @@ $(document).on("click", ".buybutton", function () {
 
 	$('#buy_cusip').html($(this).data('id'));
 	
-	$.getJSON("Market?cusip="+$(this).data('id'), function(marketData) {
+	$.getJSON("Market?cusip="+$(this).data('id'), function(data) {
+		
+		marketData = data.bonds[0];
+		
 		$('#buy_cusip').html(marketData.cusip);
 		$('#buy_rating').html(marketData.rating);
 		$('#buy_currentYield').html(marketData.currentYield);
 		$('#buy_yieldToMaturity').html(marketData.yieldToMaturity);
 		$('#buy_maturityDate').html(marketData.maturityDate);
 		$('#buy_quantityAvailable').html(marketData.quantityAvailable);
+		$('#buy_parValue').html(marketData.parValue);
+		$('#buy_price').html(marketData.price);
+		
+	}).error(function() {
+		window.location = "index.jsp";
 	});
+	
 
 });
 
 $("#buy_quantity").keyup(function() {
 	if (jQuery.isNumeric($(this).val())) {
-		$("#buy_purchaseAmount").html("$" + ($(this).val() * $("#buy_parValue").html()));
+		$("#buy_purchaseAmount").html("$" + ($(this).val() * $("#buy_price").html()).toFixed(2));
 	}
 });
 
@@ -102,19 +111,27 @@ function refreshData(postinfo) {
 	$('#bond_market_data > tbody:last').html("");
 	
 	$.post("Market", postinfo, function(marketData) {
-		$.each(marketData, function(key) {
+		
+		if (marketData.errorCode != 200) {
+			alert(marketData.responseMessage);
+			return false;
+		}
+		
+		$.each(marketData.bonds, function(key, value) {
 			$('#bond_market_data > tbody:last').append('<tr id="row_' + key + '"></tr>');
-			$('#row_'+key).append('<td class="action_buttons"><a class="buybutton" href="#buyModal" role="button" data-toggle="modal" data-id="'+marketData[key].cusip+'">BUY</a></td>');
-			$('#row_'+key).append('<td>'+marketData[key].cusip+'</td>');
-			$('#row_'+key).append('<td class="hidden-800">'+marketData[key].rating+'</td>');
-			$('#row_'+key).append('<td>'+marketData[key].coupon.toFixed(2)+'%</td>');
+			$('#row_'+key).append('<td class="action_buttons"><a class="buybutton" href="#buyModal" role="button" data-toggle="modal" data-id="'+value.cusip+'">BUY</a></td>');
+			$('#row_'+key).append('<td>'+value.cusip+'</td>');
+			$('#row_'+key).append('<td class="hidden-800">'+value.rating+'</td>');
+			$('#row_'+key).append('<td>'+value.coupon.toFixed(2)+'%</td>');
 			$('#row_'+key).append('<td>###%</td>');
 			$('#row_'+key).append('<td class="hidden-800">###%</td>');
-			$('#row_'+key).append('<td>'+marketData[key].maturityDate.substring(0,12)+'</td>');
-			$('#row_'+key).append('<td style="text-align: right;">$'+marketData[key].price.toFixed(2)+'</td>');
-			$('#row_'+key).append('<td style="text-align: right;">'+marketData[key].quantityAvailable+'</td>');
+			$('#row_'+key).append('<td>'+value.maturityDate.substring(0,12)+'</td>');
+			$('#row_'+key).append('<td style="text-align: right;">$'+value.price.toFixed(4)+'</td>');
+			$('#row_'+key).append('<td style="text-align: right;">'+value.quantityAvailable+'</td>');
 			
 		});
+	}).error(function() {
+		window.location = "index.jsp";
 	});
 	
 }

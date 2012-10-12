@@ -7,31 +7,35 @@
 <div class="modal-body">
 	<div class="controls controls-row">
 	  <div class="span3">CUSIP: </div>
-	  <div class="span2" id="buy_cusip">1000</div>
+	  <div class="span2" id="buy_cusip"></div>
 	</div>
 	<div class="controls controls-row">
 	  <div class="span3">Rating: </div>
-	  <div class="span2" id="buy_rating">1000</div>
+	  <div class="span2" id="buy_rating"></div>
 	</div>
 	<div class="controls controls-row">
 	  <div class="span3">Current Yield (%): </div>
-	  <div class="span2" id="buy_currentYield">1000</div>
+	  <div class="span2" id="buy_currentYield"></div>
 	</div>
 	<div class="controls controls-row">
 	  <div class="span3">Yield to Maturity (%): </div>
-	  <div class="span2" id="buy_yieldToMaturity">1000</div>
+	  <div class="span2" id="buy_yieldToMaturity"></div>
 	</div>
 	<div class="controls controls-row">
 	  <div class="span3">Maturity Date: </div>
-	  <div class="span2" id="buy_maturityDate">1000</div>
-	</div>
-	<div class="controls controls-row">
-	  <div class="span3">Quantity Available: </div>
-	  <div class="span2" id="buy_quantityAvailable">1000</div>
+	  <div class="span2" id="buy_maturityDate"></div>
 	</div>
 	<div class="controls controls-row">
 	  <div class="span3">Par Value: </div>
-	  <div class="span2" id="buy_parValue">1000</div>
+	  <div class="span2" id="buy_parValue"></div>
+	</div>
+	<div class="controls controls-row">
+	  <div class="span3">Quantity Available: </div>
+	  <div class="span2" id="buy_quantityAvailable"></div>
+	</div>
+	<div class="controls controls-row">
+	  <div class="span3">Price: </div>
+	  <div class="span2" id="buy_price"></div>
 	</div>
 	<hr />
 	<div class="controls controls-row">
