@@ -45,7 +45,7 @@
 </div>
 <div class="modal-footer">
 <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-<input type="submit" class="btn btn-primary" value="Search" />
+<input type="submit" class="btn btn-primary" value="Search" id="searchbtn" />
 </div>
 </form>
 </div>

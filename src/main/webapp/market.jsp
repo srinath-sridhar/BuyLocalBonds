@@ -65,7 +65,7 @@ $(document).ready(function() {
 	$('#thquantity').tooltip({ placement : "bottom", title: "Available Quantity"});
 });
 
-
+// BUY BUTTON FOR BUY MODAL DIALOG
 $(document).on("click", ".buybutton", function () {
 
 	$('#buy_cusip').html($(this).data('id'));
@@ -96,21 +96,39 @@ $("#buy_quantity").keyup(function() {
 	}
 });
 
-$("#searchform").submit(function(event) {
-	refreshData($("#searchform").serialize());
-	$("#btnCloseSearch").click();
+$("#searchbtn").click(function(event) {
 	
 	// prevent default form submittion
-	 event.preventDefault();
+	event.preventDefault();
+	
+	alertHighLowValuesForSearch("Rating", "100", null);
+/*	alertHighLowValuesForSearch("Coupon", "#coupon_high", "#coupon_low");
+	alertHighLowValuesForSearch("Current Yield", "#currentYield_high", "#currentYield_low");
+	alertHighLowValuesForSearch("YieldToMaturity", "#yieldToMaturity_high", "#yieldToMaturity_low");
+	alertHighLowValuesForSearch("Maturity Date", "#maturityData_high", "#maturityData_low");
+	alertHighLowValuesForSearch("Par Value", "#parValue_high", "#parValue_low");
+	alertHighLowValuesForSearch("Price", "#price_high", "#price_low");
+*/
+	refreshData($("#searchform").serialize());
+	$("#btnCloseSearch").click();
+
 	
 });
 
+function alertHighLowValuesForSearch(typeString, firstString, secondString) {
+	
+	if (xorJqueryStringCompare(firstString, secondString)) 
+		alert("Search requires high and low for " + typeString.toUpperCase() + ".");
+	
+}
 
+
+// GETS SEARCH RESULTS AND DISPLAYS IT TO MAIN TABLE
 function refreshData(postinfo) {
 	
 	$('#bond_market_data > tbody:last').html("");
 	
-	$.post("Market", postinfo, function(marketData) {
+	$.post("BondSearch", postinfo, function(marketData) {
 		
 		if (marketData.errorCode != 200) {
 			alert(marketData.responseMessage);
@@ -136,6 +154,36 @@ function refreshData(postinfo) {
 	
 }
 
+
+// UPDATES LIST OF CUSTOMERS FOR TRADERS
+function refreshCustomerList() {
+	
+	$.getJSON("CustomerSerlvet", function(data) {
+		
+		if (data.errorCode != 200) {
+			alert(data.responseMessage);
+			return false;
+		}
+		
+		$("#dd-currentCustomer").html(data.activeCustomer);
+		
+		$("#dd-customerList").html("");
+		
+		$.each(data.customers, function(key, value) {
+			$("#dd-customerList").append("<li><a href=\"#\" class=\"customerFromCustomerList\" customer-id=\"" + key + "\">" + value + "</a></li>");
+		});
+		
+	});
+	
+}
+
+// XOR FOR JQUERY STRING OBJECT
+function xorJqueryStringCompare(a, b) {
+	
+	return ((aString.length == 0 || bString.length == 0) && 
+			 !(aString.length == 0 && bString.length == 0));
+	
+}
 </script>
 
 <%@ include file="_footer.jsp" %>
