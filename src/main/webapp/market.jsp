@@ -36,12 +36,6 @@
 <%@ include file="_modal_buy.jsp" %>
 
 <%@ include file="_modal_search.jsp" %>
-    
-   <!-- Le javascript
-================================================== -->
-   <!-- Placed at the end of the document so the pages load faster -->
-   <script src="lib/js/jquery.js"></script>
-   <script src="lib/js/bootstrap.js"></script>
    
 <script>
 $(document).ready(function() {
@@ -153,28 +147,6 @@ window.location = "index.jsp";
 
 }
 
-
-// UPDATES LIST OF CUSTOMERS FOR TRADERS
-function refreshCustomerList() {
-
-$.getJSON("CustomerSerlvet", function(data) {
-
-if (data.errorCode != 200) {
-alert(data.responseMessage);
-return false;
-}
-
-$("#dd-currentCustomer").html(data.activeCustomer);
-
-$("#dd-customerList").html("");
-
-$.each(data.customers, function(key, value) {
-$("#dd-customerList").append("<li><a href=\"#\" class=\"customerFromCustomerList\" customer-id=\"" + key + "\">" + value + "</a></li>");
-});
-
-});
-
-}
 
 // XOR FOR JQUERY STRING OBJECT
 function xorJqueryStringCompare(a, b) {
