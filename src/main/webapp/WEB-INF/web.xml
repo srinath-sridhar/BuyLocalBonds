@@ -10,9 +10,19 @@
 		<description></description>
 		<servlet-class>com.team8.servlets.BondSearchServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>CustomerServlet</servlet-name>
+		<display-name>CustomerServlet</display-name>
+		<description></description>
+		<servlet-class>com.team8.servlets.CustomerServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>BondSearchServlet</servlet-name>
 		<url-pattern>/BondSearch</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CustomerServlet</servlet-name>
+		<url-pattern>/CustomerServlet</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>

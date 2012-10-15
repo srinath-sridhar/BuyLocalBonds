@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.team8.dao.UserAuthenticationDao;
-import com.team8.models.User;
+import com.team8.models.Customer;
 
 /**
  * Servlet implementation class UserAuthentication
@@ -38,13 +38,12 @@ public class UserAuthenticationServlet extends HttpServlet {
 		try {
 
 			UserAuthenticationDao dao = new UserAuthenticationDao();
-			User user = dao.isUserAuthenticated(request.getParameterMap());
+			Customer user = dao.isUserAuthenticated(request.getParameterMap());
 			if(user != null)
 			{
 				HttpSession session = request.getSession();
-				session.setAttribute("username", user.getUserName());
-				session.setAttribute("userId", user.getUserId());
-				session.setAttribute("accountType", user.getAccountType());
+				session.setAttribute("username", user.getCustomerName());
+				session.setAttribute("userId", user.getCustomerId());
 				pw.write("success");
 			}
 			else {

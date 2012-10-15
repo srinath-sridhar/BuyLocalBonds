@@ -8,44 +8,48 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
-import com.team8.dao.BondSearchDao;
-import com.team8.responses.BondSearchResponse;
+import com.team8.dao.GetCustomersDao;
+import com.team8.responses.GetCustomersResponse;
 import com.team8.utils.SessionMgmtUtil;
 
 /**
- * Servlet implementation class BondSearchServlet
+ * Servlet implementation class CustomerServlet
  */
-@WebServlet("/BondSearch")
-public class BondSearchServlet extends HttpServlet {
+public class CustomerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BondSearchServlet() {
+    public CustomerServlet() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		BondSearchDao dao = new BondSearchDao();
+		GetCustomersDao dao = new GetCustomersDao();
 		PrintWriter out = response.getWriter();
 		if(!SessionMgmtUtil.checkUserLoggedIn(request)) {
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			return;
 		}
-
 		try {
 			response.setContentType("application/json");
-			BondSearchResponse bsr = dao.searchBonds(request.getParameterMap());
+			HttpSession session = request.getSession();
+			//String id = (String)
+			int customerId = (int) session.getAttribute("userId");//Integer.parseInt(id);
+			GetCustomersResponse gcr = dao.getCustomers(customerId);
 			Gson gson = new Gson();
-			out.print(gson.toJson(bsr));
+			out.print(gson.toJson(gcr));
 			out.close();
-		} catch (Exception e) {
+		}
+		catch(Exception e) {
 			out.close();
 			e.printStackTrace();
 		}
@@ -55,9 +59,7 @@ public class BondSearchServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//Map<String, String[]> searchParams = request.getParameterMap();
-		doGet(request, response);
-		
+		// TODO Auto-generated method stub
 	}
 
 }

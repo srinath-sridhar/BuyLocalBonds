@@ -63,7 +63,7 @@ public class MarketServlet extends HttpServlet {
 
 		if(cusip != null) {
 			List<Bond> bonds = new ArrayList<Bond>();
-			bonds.add(new Bond(cusip));
+			//bonds.add(new Bond(cusip));
 			System.out.println(request.getSession().getAttribute("username") +" buys "+ cusip);
 			BondSearchResponse bsr = new BondSearchResponse(bonds, 200, "OK");
 			out.print(gson.toJson(bsr));

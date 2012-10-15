@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.Map;
 
 
-import com.team8.models.User;
+import com.team8.models.Customer;
 import com.team8.utils.DataBaseConnectionUtil;
 
 public class UserAuthenticationDao {
@@ -52,7 +52,7 @@ public class UserAuthenticationDao {
 		return st;
 	}
 	
-	public User isUserAuthenticated(Map<String, String[]> params) throws SQLException {
+	public Customer isUserAuthenticated(Map<String, String[]> params) throws SQLException {
 		System.out.println("using parameter map");
 		
 		String username = params.get("username")[0];
@@ -86,8 +86,8 @@ public class UserAuthenticationDao {
 		return null;
 	}
 	
-	private User getUserObjectFromResultSet(ResultSet rs) throws SQLException {
-		return new User(rs.getString(2), rs.getString(4), rs.getInt(1));
+	private Customer getUserObjectFromResultSet(ResultSet rs) throws SQLException {
+		return new Customer(rs.getString(2), rs.getInt(1));
 	}
 
 }

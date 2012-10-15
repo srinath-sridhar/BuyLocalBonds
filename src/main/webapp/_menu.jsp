@@ -1,3 +1,4 @@
+<% String reqURI = request.getRequestURI(); %>
  <div class="navbar">
   <div class="navbar-inner">
    <div class="container">
@@ -15,21 +16,16 @@
       <!-- Everything you want hidden at 940px or less, place within here -->
       <div class="nav-collapse">
          <ul class="nav">
-           <li><a href="#">Home</a></li>
-           <li class="active"><a href="#">Buy</a></li>
-           <li><a href="#">Sell</a></li>
-           <li><a href="#">Holding</a></li>
+           <li <% if (reqURI.contains("home.jsp")) { %>class="active" <% } %>><a href="home.jsp">Home</a></li>
+           <li <% if (reqURI.contains("market.jsp")) { %>class="active" <% } %>><a href="market.jsp">Buy</a></li>
+           <li <% if (reqURI.contains("selling.jsp")) { %>class="active" <% } %>><a href="#">Sell</a></li>
+           <li <% if (reqURI.contains("holding.jsp")) { %>class="active" <% } %>><a href="#">Holding</a></li>
          </ul>
          
          <ul class="nav pull-right">
            <li class="dropdown">
-             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-             <ul class="dropdown-menu">
-               <li><a href="#">Action</a></li>
-               <li><a href="#">Another action</a></li>
-               <li><a href="#">Something else here</a></li>
-               <li class="divider"></li>
-               <li><a href="#">Separated link</a></li>
+             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span id="dd-currentCustomer">Current Customer</span> <b class="caret"></b></a>
+             <ul class="dropdown-menu" id="dd-customerList">
              </ul>
            </li>
            <li class="divider-vertical"></li>
@@ -40,3 +36,36 @@
     </div>
   </div>
 </div>
+
+<script>
+
+$(document).ready(function() {
+	
+	refreshCustomerList();
+	
+});
+
+
+//UPDATES LIST OF CUSTOMERS FOR TRADERS
+function refreshCustomerList() {
+	
+	$.getJSON("CustomerSerlvet", function(data) {
+		
+		if (data.errorCode != 200) {
+			alert(data.responseMessage);
+			return false;
+		}
+		
+		$("#dd-currentCustomer").html(data.activeCustomer.customerID);
+		
+		$("#dd-customerList").html("");
+		
+		$.each(data.customers, function(key, value) {
+			$("#dd-customerList").append("<li><a href=\"#\" class=\"customerFromCustomerList\" customer-id=\"" + value.customerID + "\">" + value.customerName + "</a></li>");
+		});
+		
+	});
+	
+}
+
+</script>
