@@ -11,6 +11,7 @@ import java.util.Map;
 import com.team8.models.Bond;
 import com.team8.responses.BondSearchResponse;
 import com.team8.utils.DataBaseConnectionUtil;
+import com.team8.utils.DateUtil;
 import com.team8.utils.Rating;
 
 
@@ -132,6 +133,20 @@ public class BondSearchDao {
 			}
 		}
 
+		paramVals = params.get("maturityDate_low");
+		if(!("".equals(paramVals[0])) && paramVals.length == 1) {
+			paramVals = params.get("maturityDate_high");
+			if(!("".equals(paramVals[0])) && paramVals.length == 1) {
+				if(count == 0) {
+					sb.append(MATURITY_DATE_CLAUSE);
+				}
+				else {
+					sb.append(" AND"+MATURITY_DATE_CLAUSE);
+				}
+				isDefined[5] = true;
+				++count;
+			}
+		}
 
 		paramVals = params.get("parValue_low");
 		if(!("".equals(paramVals[0])) && paramVals.length == 1) {
@@ -224,8 +239,11 @@ public class BondSearchDao {
 
 				}
 				if(isDefined[5]) {
-					// ask about conversion to and from date
-					// COnversion errors here
+					responseMessage = "Invalid input for maurity date. use format yyyy-mm-dd";
+					st.setDate(paramCount, DateUtil.convertStringToDate(params.get("maturityDate_low")[0]));
+					++paramCount;
+					st.setDate(paramCount, DateUtil.convertStringToDate(params.get("maturityDate_high")[0]));
+					++paramCount;
 				}
 				if(isDefined[6]) {
 					responseMessage = "Invalid input for par value. only decimal values permitted";

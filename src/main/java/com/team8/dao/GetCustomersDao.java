@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 import java.sql.PreparedStatement;
 import com.team8.models.Customer;
@@ -48,6 +48,10 @@ public class GetCustomersDao {
 		else {
 			customers = executeQuery(st);
 			gcr.setCustomers(customers);
+			if(gcr.getCustomers().size() >= 1) {
+				//gcr.setActiveCustomer(customers.get(0));
+				gcr.setActiveCustomer(null);
+			}
 		}
 		
 		gcr.setErrorCode(errorCode);
