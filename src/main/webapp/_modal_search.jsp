@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal hide" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-<form action="" method="post" style="padding: 0px; margin: 0px;">
+<form action="" method="post" style="padding: 0px; margin: 0px;" id="searchform" accept-charset="UTF-8">
 <div class="modal-header">
 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
 <h3 id="myModalLabel">Search for Bond</h3>

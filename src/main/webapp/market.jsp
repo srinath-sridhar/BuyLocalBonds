@@ -46,7 +46,7 @@
 <script>
 $(document).ready(function() {
 	
-	refreshData("");
+	//refreshData("");
 	
 	$('#buyModal').modal({
 		backdrop : true,
@@ -58,6 +58,7 @@ $(document).ready(function() {
 		show : false
 	});
 	
+
 	
 	$('#thcusip').tooltip({ placement : "bottom",  title : "Uniform Security Identification Number" });
 	$('#thcoupon').tooltip({ placement : "bottom", title: "Coupon"});
@@ -96,12 +97,9 @@ $("#buy_quantity").keyup(function() {
 	}
 });
 
-$("#searchbtn").click(function(event) {
-	
-	// prevent default form submittion
-	event.preventDefault();
-	
-	alertHighLowValuesForSearch("Rating", "100", null);
+$("#searchform").submit(function(event) {
+
+//	alertHighLowValuesForSearch("Rating", "100", null);
 /*	alertHighLowValuesForSearch("Coupon", "#coupon_high", "#coupon_low");
 	alertHighLowValuesForSearch("Current Yield", "#currentYield_high", "#currentYield_low");
 	alertHighLowValuesForSearch("YieldToMaturity", "#yieldToMaturity_high", "#yieldToMaturity_low");
@@ -112,7 +110,8 @@ $("#searchbtn").click(function(event) {
 	refreshData($("#searchform").serialize());
 	$("#btnCloseSearch").click();
 
-	
+	//prevent default form submittion
+	event.preventDefault();
 });
 
 function alertHighLowValuesForSearch(typeString, firstString, secondString) {
