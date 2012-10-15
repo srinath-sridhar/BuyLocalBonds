@@ -18,6 +18,7 @@ public class GetCustomersDao {
 	private Connection databaseConnection = null;
 
 	private static final String BASE_SQL = "SELECT * FROM customeraccountinfo WHERE TraderId = ?";
+	private static final String CUSTOMER_INFO_SQL = "SELECT * FROM personalinfo WHERE AccountId = ?";
 	
 	public GetCustomersDao() {
 		errorCode = 200;
@@ -49,8 +50,7 @@ public class GetCustomersDao {
 			customers = executeQuery(st);
 			gcr.setCustomers(customers);
 			if(gcr.getCustomers().size() >= 1) {
-				//gcr.setActiveCustomer(customers.get(0));
-				gcr.setActiveCustomer(null);
+				gcr.setActiveCustomer(customers.get(0));
 			}
 		}
 		
@@ -79,9 +79,27 @@ public class GetCustomersDao {
 	}
 
 	private Customer convertToCustomer(ResultSet rs) throws SQLException {
-		return new Customer("test customer", rs.getInt(1));
+		String customerName = getCustomerName(rs.getInt(1));
+		if(customerName == null) {
+			return null;
+		}
+		return new Customer(customerName, rs.getInt(1));
 	}
 
-
+	private String getCustomerName(int customerId) {
+		PreparedStatement st;
+		try {
+			st = databaseConnection.prepareStatement(CUSTOMER_INFO_SQL);
+			st.setInt(1, customerId);
+			ResultSet rs = st.executeQuery();
+			while(rs.next()) {
+				return rs.getString(2) + " " + rs.getString(3);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}		
+		return null;
+	}
 
 }

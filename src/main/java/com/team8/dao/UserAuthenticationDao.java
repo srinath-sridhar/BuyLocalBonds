@@ -52,8 +52,7 @@ public class UserAuthenticationDao {
 		return st;
 	}
 	
-	public Customer isUserAuthenticated(Map<String, String[]> params) throws SQLException {
-		System.out.println("using parameter map");
+	public Customer isUserAuthenticated(Map<String, String[]> params) throws SQLException {		
 		
 		String username = params.get("username")[0];
 		String password = params.get("password")[0];
