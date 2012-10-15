@@ -44,6 +44,10 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="lib/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="lib/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="lib/ico/apple-touch-icon-57-precomposed.png">
+
+   <script src="lib/js/jquery.js"></script>
+   <script src="lib/js/bootstrap.js"></script>
+   
   </head>
 
   <body>

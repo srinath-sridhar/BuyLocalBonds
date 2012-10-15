@@ -1,3 +1,4 @@
+<% String reqURI = request.getRequestURI(); %>
  <div class="navbar">
   <div class="navbar-inner">
    <div class="container">
@@ -15,10 +16,10 @@
       <!-- Everything you want hidden at 940px or less, place within here -->
       <div class="nav-collapse">
          <ul class="nav">
-           <li><a href="#">Home</a></li>
-           <li class="active"><a href="#">Buy</a></li>
-           <li><a href="#">Sell</a></li>
-           <li><a href="#">Holding</a></li>
+           <li <% if (reqURI.contains("home.jsp")) { %>class="active" <% } %>><a href="home.jsp">Home</a></li>
+           <li <% if (reqURI.contains("market.jsp")) { %>class="active" <% } %>><a href="market.jsp">Buy</a></li>
+           <li <% if (reqURI.contains("selling.jsp")) { %>class="active" <% } %>><a href="#">Sell</a></li>
+           <li <% if (reqURI.contains("holding.jsp")) { %>class="active" <% } %>><a href="#">Holding</a></li>
          </ul>
          
          <ul class="nav pull-right">
@@ -35,3 +36,36 @@
     </div>
   </div>
 </div>
+
+<script>
+
+$(document).ready(function() {
+	
+	refreshCustomerList();
+	
+});
+
+
+//UPDATES LIST OF CUSTOMERS FOR TRADERS
+function refreshCustomerList() {
+	
+	$.getJSON("CustomerSerlvet", function(data) {
+		
+		if (data.errorCode != 200) {
+			alert(data.responseMessage);
+			return false;
+		}
+		
+		$("#dd-currentCustomer").html(data.activeCustomer.customerID);
+		
+		$("#dd-customerList").html("");
+		
+		$.each(data.customers, function(key, value) {
+			$("#dd-customerList").append("<li><a href=\"#\" class=\"customerFromCustomerList\" customer-id=\"" + value.customerID + "\">" + value.customerName + "</a></li>");
+		});
+		
+	});
+	
+}
+
+</script>
