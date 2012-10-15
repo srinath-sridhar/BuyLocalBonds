@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.team8.dao.UserAuthenticationDao;
-import com.team8.model.User;
+import com.team8.models.User;
 
 /**
  * Servlet implementation class UserAuthentication

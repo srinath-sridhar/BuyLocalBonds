@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.Map;
 
 
-import com.team8.model.User;
+import com.team8.models.User;
 import com.team8.utils.DataBaseConnectionUtil;
 
 public class UserAuthenticationDao {

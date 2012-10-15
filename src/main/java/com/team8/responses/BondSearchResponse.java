@@ -2,7 +2,7 @@ package com.team8.responses;
 
 import java.util.List;
 
-import com.team8.model.Bond;
+import com.team8.models.Bond;
 
 public class BondSearchResponse {
 	private List<Bond> bonds;

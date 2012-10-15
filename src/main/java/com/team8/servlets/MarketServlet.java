@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
-import com.team8.model.Bond;
+import com.team8.models.Bond;
 import com.team8.responses.BondSearchResponse;
 
 /**
