@@ -24,6 +24,12 @@
 		<description></description>
 		<servlet-class>com.team8.servlets.SellBondServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>PortfolioServlet</servlet-name>
+		<display-name>PortfolioServlet</display-name>
+		<description></description>
+		<servlet-class>com.team8.servlets.PortfolioServlet</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>BondSearchServlet</servlet-name>
@@ -40,6 +46,10 @@
 	<servlet-mapping>
 		<servlet-name>SellBondServlet</servlet-name>
 		<url-pattern>/SellBond</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>PortfolioServlet</servlet-name>
+		<url-pattern>/Portfolio</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>
