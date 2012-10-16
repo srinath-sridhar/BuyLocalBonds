@@ -7,6 +7,8 @@ public class Holding {
 	private String cusip;
 	private double purchasePrice;
 	private double currentPrice;
+	private int purchaseQuantity;
+	private Date purchaseDate;
 	
 	public String getCusip() {
 		return cusip;
@@ -38,8 +40,7 @@ public class Holding {
 	public void setPurchaseDate(Date purchaseDate) {
 		this.purchaseDate = purchaseDate;
 	}
-	private int purchaseQuantity;
-	private Date purchaseDate;
+
 	
 
 }
