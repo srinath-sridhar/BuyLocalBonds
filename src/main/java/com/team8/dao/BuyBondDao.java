@@ -6,8 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
-import com.team8.models.BuyOrder;
-import com.team8.responses.BuyOrderResponse;
+import com.team8.models.Order;
+import com.team8.responses.OrderResponse;
 import com.team8.utils.DataBaseConnectionUtil;
 
 public class BuyBondDao {
@@ -15,7 +15,7 @@ public class BuyBondDao {
 	private static final String USER_TRADER_CHECK_SQL = "SELECT * FROM customeraccountinfo WHERE CustomerId = ? AND TraderId = ?";
 	private static final String BOND_QTY_CHECK_SQL = "SELECT * FROM bondinfo WHERE CUSIP = ? AND Quantity >= ?";
 	private static final String BOND_QUANTITY_UPDATE_SQL ="UPDATE bondinfo SET Quantity = ? WHERE CUSIP = ?";
-	private static final String CUST_CREDIT_UPDATE_SQL = "UPDATE customeraccountinfo SET Limit = ? WHERE CustomerId = ?"; 
+	private static final String CUST_CREDIT_UPDATE_SQL = "UPDATE customeraccountinfo SET CreditLimit = ? WHERE CustomerId = ?"; 
 	private static final String UPDATE_PORTFOLIO_SQL = "";  
 
 	private int errorCode;
@@ -24,6 +24,7 @@ public class BuyBondDao {
 
 	private double previousCustomerLimit;
 	private int previousBondQuantity;
+	private double currentBondPrice;
 
 	public BuyBondDao() {
 		errorCode = 200;
@@ -31,11 +32,12 @@ public class BuyBondDao {
 		databaseConnection = DataBaseConnectionUtil.getDatabaseConnection();
 		previousCustomerLimit = 0;
 		previousBondQuantity = -1;
+		currentBondPrice = 0.0;
 	}
 
-	public BuyOrderResponse buyBond(Map<String, String []> params, int customerId, int traderId) {
-		BuyOrderResponse bor = new BuyOrderResponse();
-		BuyOrder bo = new BuyOrder();
+	public OrderResponse buyBond(Map<String, String []> params, int customerId, int traderId) {
+		OrderResponse bor = new OrderResponse();
+		Order bo = new Order();
 		bor.setOrder(bo);
 
 		try {
@@ -44,27 +46,29 @@ public class BuyBondDao {
 
 				//Extract params for 
 
-				String totalAmount = params.get("amount")[0];
+				
 				String cusip = params.get("cusip")[0];
 				int quantity = Integer.parseInt(params.get("quantity")[0]);
+				double totalAmount; 
 
+				// check if there is enough quantity in market	
+				if(checkBondQuantity(cusip, quantity)) {
 
-				//check if customer has enough credit
-				if(doesCustomerHaveCredit(totalAmount)) {
-
-					// check if there is enough quantity in market					
-					if(checkBondQuantity(cusip, quantity)) {
+					totalAmount = quantity * currentBondPrice;
+						
+					//check if customer has enough credit
+					if(doesCustomerHaveCredit(totalAmount)) {
 
 						// all is well. update bond quantity
 						if(updateBondQuantity(cusip, quantity)) {	
 
 							//update customer credit limit
-							if(updateCustomerCredit(customerId, Double.parseDouble(totalAmount))) {
+							if(updateCustomerCredit(customerId, totalAmount)) {
 
 								//Set the parameters for the buy order here
 								bo.setCusip(cusip);
 								bo.setCustomerId(customerId);
-								bo.setPrice(Double.parseDouble(params.get("price")[0]));
+								bo.setPrice(totalAmount);
 								bo.setQuantity(quantity);
 								bo.setStatus("Order Placed");
 							}
@@ -82,8 +86,8 @@ public class BuyBondDao {
 		return bor;
 	}
 
-	private boolean doesCustomerHaveCredit(String totalAmount) {
-		if(previousCustomerLimit < Double.parseDouble(totalAmount)) {
+	private boolean doesCustomerHaveCredit(double totalAmount) {
+		if(previousCustomerLimit < totalAmount) {
 			return false;
 		}
 		return true;
@@ -102,6 +106,7 @@ public class BuyBondDao {
 			}
 			else {
 				previousBondQuantity = rs.getInt(6);
+				currentBondPrice = rs.getDouble(5);
 			}
 		} catch (SQLException e) {			
 			e.printStackTrace();

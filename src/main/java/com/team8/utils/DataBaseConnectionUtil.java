@@ -9,7 +9,7 @@ public class DataBaseConnectionUtil {
 	static {		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/blbdata","root","");
+			databaseConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/blbdata","root","dbdb123");
 		} 
 		catch (Exception e) {
 			e.printStackTrace();

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.team8.dao.BuyBondDao;
-import com.team8.responses.BuyOrderResponse;
+import com.team8.responses.OrderResponse;
 import com.team8.utils.SessionMgmtUtil;
 
 /**
@@ -34,7 +34,7 @@ public class BuyBondServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
 		BuyBondDao dao = new BuyBondDao();
-		BuyOrderResponse bor = null;
+		OrderResponse bor = null;
 		int traderId, customerId;
 		
 		if(!SessionMgmtUtil.checkUserLoggedIn(request)) {
