@@ -11,15 +11,15 @@
       </a>
  
       <!-- Be sure to leave the brand out there if you want it shown -->
-      <a class="brand" href="#">Buy Local Bonds</a>
+      <a style="float: left; margin: 10px 10px 0px 0px;" href="#"><img src="lib/img/db.png" width="120" height="25" /></a>
  
       <!-- Everything you want hidden at 940px or less, place within here -->
       <div class="nav-collapse">
          <ul class="nav">
-           <li <% if (reqURI.contains("home.jsp")) { %>class="active" <% } %>><a href="home.jsp">Home</a></li>
-           <li <% if (reqURI.contains("market.jsp")) { %>class="active" <% } %>><a href="market.jsp">Buy</a></li>
-           <li <% if (reqURI.contains("selling.jsp")) { %>class="active" <% } %>><a href="#">Sell</a></li>
-           <li <% if (reqURI.contains("holding.jsp")) { %>class="active" <% } %>><a href="#">Holding</a></li>
+           <li <% if (reqURI.contains("home.jsp")) { %>class="active"<% } %>><a href="home.jsp">Home</a></li>
+           <li <% if (reqURI.contains("market.jsp")) { %>class="active"<% } %>><a href="market.jsp">Buy</a></li>
+           <li <% if (reqURI.contains("selling.jsp")) { %>class="active"<% } %>><a href="#">Sell</a></li>
+           <li <% if (reqURI.contains("holding.jsp")) { %>class="active"<% } %>><a href="#">Holding</a></li>
          </ul>
          
          <ul class="nav pull-right">
@@ -28,8 +28,10 @@
              <ul class="dropdown-menu" id="dd-customerList">
              </ul>
            </li>
+           <% if (reqURI.contains("market.jsp")) { %>
            <li class="divider-vertical"></li>
            <li><a href="#searchModal" data-toggle="modal" href="#">Search</a></li>
+           <% } %>
          </ul>
     	</div>
  

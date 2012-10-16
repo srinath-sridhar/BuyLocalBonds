@@ -27,6 +27,9 @@
 	     </div>
         	
        <div class="span6 hidden-800">
+       
+       <div style="padding: 20px 0px;"><img src="lib/img/graph.png" alt="Latest Index Results" /></div>
+       
 	   <!--  <div style="float: right"><img src="lib/img/logo.gif" /></div> -->
           <h2>Heading</h2>
           <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
