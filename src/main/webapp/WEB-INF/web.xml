@@ -14,6 +14,12 @@
 		<description></description>
 		<servlet-class>com.team8.servlets.CustomerServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>BuyBondServlet</servlet-name>
+		<display-name>BuyBondServlet</display-name>
+		<description></description>
+		<servlet-class>com.team8.servlets.BuyBondServlet</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>BondSearchServlet</servlet-name>
 		<url-pattern>/BondSearch</url-pattern>
@@ -21,6 +27,10 @@
 	<servlet-mapping>
 		<servlet-name>CustomerServlet</servlet-name>
 		<url-pattern>/CustomerServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>BuyBondServlet</servlet-name>
+		<url-pattern>/BuyBond</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
