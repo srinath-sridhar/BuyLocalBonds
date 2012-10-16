@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.team8.dao.GetCustomersDao;
+import com.team8.models.Customer;
 import com.team8.responses.GetCustomersResponse;
 import com.team8.utils.SessionMgmtUtil;
 
@@ -43,11 +44,16 @@ public class CustomerServlet extends HttpServlet {
 			response.setContentType("application/json");
 			int customerId = (int) session.getAttribute("userId");
 			GetCustomersResponse gcr = dao.getCustomers(customerId);
-			
+
 			if(session.getAttribute("currentCustomer") == null) {
 				session.setAttribute("currentCustomer", gcr.getActiveCustomer().getCustomerId());
 			}
-			
+			else {
+				int currentId = (int)session.getAttribute("currentCustomer");
+				Customer activeCustomer = gcr.getCustomerFromId(currentId);
+				gcr.setActiveCustomer(activeCustomer);				
+			}
+
 			Gson gson = new Gson();
 			out.print(gson.toJson(gcr));
 			out.close();
@@ -62,7 +68,26 @@ public class CustomerServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		System.out.println("changing current customer");
+		PrintWriter out = response.getWriter();
+		HttpSession session = request.getSession();
+
+		if(!SessionMgmtUtil.checkUserLoggedIn(request)) {
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			return;
+		}
+		try {
+			int changedCustomerId = Integer.parseInt(request.getParameter("newCurrentCustomer"));
+			session.setAttribute("currentCustomer", changedCustomerId);
+			response.setStatus(HttpServletResponse.SC_OK);
+			return;
+			
+		}catch(Exception e) {
+			out.close();
+			e.printStackTrace();
+		}
+
 	}
+
 
 }

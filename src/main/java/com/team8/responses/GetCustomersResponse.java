@@ -48,4 +48,18 @@ public class GetCustomersResponse {
 		this.responseMessage = responseMessage;
 	}
 	
+	public Customer getCustomerFromId(int customerId) {
+		try {
+			for(Customer customer: customers) {
+				if(customer.getCustomerId() == customerId) {
+					return customer;
+				}
+			}
+		}
+		catch(Exception e) {
+			return null;
+		}
+		return null;
+	}
+	
 }
