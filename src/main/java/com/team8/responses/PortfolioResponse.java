@@ -8,6 +8,12 @@ public class PortfolioResponse {
 	private int errorCode;
 	private String responseMessage;
 	
+	public PortfolioResponse() {
+		errorCode = 200;
+		responseMessage = "OK";
+		holdings = null;
+	}
+	
 	public List<Holding> getHoldings() {
 		return holdings;
 	}

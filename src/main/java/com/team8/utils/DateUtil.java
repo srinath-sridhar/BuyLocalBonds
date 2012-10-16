@@ -22,5 +22,21 @@ public class DateUtil {
 		return date;
 				
 	}
+	
+	public static Date convertLongToDate(long inputDate) {
+		java.util.Date dt;
+
+		java.text.DateFormat sdf = 
+		     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+ 
+		try {
+			dt = new Date(inputDate);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		java.sql.Date date = new Date(dt.getYear(), dt.getMonth(), dt.getDate());
+		return date;
+	}
 
 }

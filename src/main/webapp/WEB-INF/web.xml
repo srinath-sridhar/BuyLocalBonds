@@ -1,5 +1,3 @@
-
-
 <web-app id="WebApp_ID">
 	<display-name>BuyLocalBonds</display-name>
 	<servlet>
@@ -20,6 +18,13 @@
 		<description></description>
 		<servlet-class>com.team8.servlets.BuyBondServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>SellBondServlet</servlet-name>
+		<display-name>SellBondServlet</display-name>
+		<description></description>
+		<servlet-class>com.team8.servlets.SellBondServlet</servlet-class>
+	</servlet>
+
 	<servlet-mapping>
 		<servlet-name>BondSearchServlet</servlet-name>
 		<url-pattern>/BondSearch</url-pattern>
@@ -32,6 +37,11 @@
 		<servlet-name>BuyBondServlet</servlet-name>
 		<url-pattern>/BuyBond</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>SellBondServlet</servlet-name>
+		<url-pattern>/SellBond</url-pattern>
+	</servlet-mapping>
+
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>

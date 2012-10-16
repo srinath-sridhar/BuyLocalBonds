@@ -16,7 +16,7 @@ public class BuyBondDao {
 	private static final String BOND_QTY_CHECK_SQL = "SELECT * FROM bondinfo WHERE CUSIP = ? AND Quantity >= ?";
 	private static final String BOND_QUANTITY_UPDATE_SQL ="UPDATE bondinfo SET Quantity = ? WHERE CUSIP = ?";
 	private static final String CUST_CREDIT_UPDATE_SQL = "UPDATE customeraccountinfo SET CreditLimit = ? WHERE CustomerId = ?"; 
-	private static final String UPDATE_PORTFOLIO_SQL = "";  
+  
 
 	private int errorCode;
 	private String responseMessage;
@@ -25,6 +25,7 @@ public class BuyBondDao {
 	private double previousCustomerLimit;
 	private int previousBondQuantity;
 	private double currentBondPrice;
+	private PortfolioUpdateDao dao = null;
 
 	public BuyBondDao() {
 		errorCode = 200;
@@ -33,6 +34,7 @@ public class BuyBondDao {
 		previousCustomerLimit = 0;
 		previousBondQuantity = -1;
 		currentBondPrice = 0.0;
+		dao = new PortfolioUpdateDao();
 	}
 
 	public OrderResponse buyBond(Map<String, String []> params, int customerId, int traderId) {
@@ -44,9 +46,7 @@ public class BuyBondDao {
 			//check if trader is allowed to trade
 			if(isTraderAuthorizedForUser(customerId, traderId)) {
 
-				//Extract params for 
-
-				
+				//Extract params from map				
 				String cusip = params.get("cusip")[0];
 				int quantity = Integer.parseInt(params.get("quantity")[0]);
 				double totalAmount; 
@@ -71,6 +71,8 @@ public class BuyBondDao {
 								bo.setPrice(totalAmount);
 								bo.setQuantity(quantity);
 								bo.setStatus("Order Placed");
+								bo.setOrderType("BUY");
+								dao.updateOnBuy(bo);
 							}
 						}
 					}
@@ -165,7 +167,4 @@ public class BuyBondDao {
 		return true;
 	}
 
-	private boolean updateCustomerPortfolio() {
-		return true;
-	}
 }
