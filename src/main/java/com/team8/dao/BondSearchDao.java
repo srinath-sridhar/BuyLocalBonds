@@ -23,6 +23,7 @@ public class BondSearchDao {
 
 	private static final String BASE_SQL = "SELECT * FROM bondinfo WHERE";
 	//the space before the actual clause is required!!!
+	
 	private static final String RATING_CLAUSE = " Rating IN ";
 	private static final String COUPON_CLAUSE = " Coupon BETWEEN ? AND ?";
 	private static final String CURRENT_YIELD_CLAUSE = " CurrentYield BETWEEN ? AND ?";
@@ -30,6 +31,7 @@ public class BondSearchDao {
 	private static final String MATURITY_DATE_CLAUSE = " Maturity BETWEEN ? AND ?";
 	private static final String PAR_VALUE_CLAUSE = "ParValue BETWEEN ? AND ?";
 	private static final String PRICE_CLAUSE = " Price BETWEEN ? AND ?";
+	private static final String CUSIP_CLAUSE = " CUSIP = ?";
 	//private static final String QTY_CLAUSE = " Quantity BETWEEN ? and ?";
 
 	private Connection databaseConnection = null;
@@ -39,9 +41,9 @@ public class BondSearchDao {
 
 	public BondSearchDao() {
 		databaseConnection = DataBaseConnectionUtil.getDatabaseConnection();
-		isDefined = new boolean[8];
+		isDefined = new boolean[9];
 		isDefined[0] = true;
-		for (int i=1; i<8; i++) {
+		for (int i=1; i<9; i++) {
 			isDefined[i] = false;
 		}
 		count = 0;
@@ -71,11 +73,11 @@ public class BondSearchDao {
 
 		int numRatings = -1;
 		paramVals = params.get("rating_low");
-		if(!("".equals(paramVals[0])) && paramVals.length == 1) {
+		if(paramVals!=null && !("".equals(paramVals[0])) && paramVals.length == 1) {
 			String low, high;
 			low = paramVals[0];
 			paramVals = params.get("rating_high");
-			if(!("".equals(paramVals[0])) && paramVals.length == 1) {
+			if(paramVals!=null && !("".equals(paramVals[0])) && paramVals.length == 1) {
 				high = paramVals[0];
 				numRatings = Rating.getNumRatings(low, high); 
 				if(numRatings > 0) {
@@ -88,9 +90,9 @@ public class BondSearchDao {
 		}
 
 		paramVals = params.get("coupon_low");
-		if(!("".equals(paramVals[0])) && paramVals.length == 1) {
+		if(paramVals!=null && !("".equals(paramVals[0])) && paramVals.length == 1) {
 			paramVals = params.get("coupon_high");
-			if(!("".equals(paramVals[0])) && paramVals.length == 1) {
+			if(paramVals!=null && !("".equals(paramVals[0])) && paramVals.length == 1) {
 				if(count == 0) {
 					sb.append(COUPON_CLAUSE);
 				}
@@ -103,9 +105,9 @@ public class BondSearchDao {
 		}
 
 		paramVals = params.get("currentYield_low");
-		if(!("".equals(paramVals[0])) && paramVals.length == 1) {
+		if(paramVals!=null && !("".equals(paramVals[0])) && paramVals.length == 1) {
 			paramVals = params.get("currentYield_high");
-			if(!("".equals(paramVals[0])) && paramVals.length == 1) {
+			if(paramVals!=null && !("".equals(paramVals[0])) && paramVals.length == 1) {
 				if(count == 0) {
 					sb.append(CURRENT_YIELD_CLAUSE);
 				}
@@ -119,9 +121,9 @@ public class BondSearchDao {
 
 
 		paramVals = params.get("yieldToMaturity_low");
-		if(!("".equals(paramVals[0])) && paramVals.length == 1) {
+		if(paramVals!=null && !("".equals(paramVals[0])) && paramVals.length == 1) {
 			paramVals = params.get("yieldToMaturity_high");
-			if(!("".equals(paramVals[0])) && paramVals.length == 1) {
+			if(paramVals!=null && !("".equals(paramVals[0])) && paramVals.length == 1) {
 				if(count == 0) {
 					sb.append(YTM_CLAUSE);
 				}
@@ -134,9 +136,9 @@ public class BondSearchDao {
 		}
 
 		paramVals = params.get("maturityDate_low");
-		if(!("".equals(paramVals[0])) && paramVals.length == 1) {
+		if(paramVals!=null && !("".equals(paramVals[0])) && paramVals.length == 1) {
 			paramVals = params.get("maturityDate_high");
-			if(!("".equals(paramVals[0])) && paramVals.length == 1) {
+			if(paramVals!=null && !("".equals(paramVals[0])) && paramVals.length == 1) {
 				if(count == 0) {
 					sb.append(MATURITY_DATE_CLAUSE);
 				}
@@ -149,9 +151,9 @@ public class BondSearchDao {
 		}
 
 		paramVals = params.get("parValue_low");
-		if(!("".equals(paramVals[0])) && paramVals.length == 1) {
+		if(paramVals!=null && !("".equals(paramVals[0])) && paramVals.length == 1) {
 			paramVals = params.get("parValue_high");
-			if(!("".equals(paramVals[0])) && paramVals.length == 1) {
+			if(paramVals!=null && !("".equals(paramVals[0])) && paramVals.length == 1) {
 
 				if(count == 0) {
 					sb.append(PAR_VALUE_CLAUSE);
@@ -165,9 +167,9 @@ public class BondSearchDao {
 			}			
 		}
 		paramVals = params.get("price_low");
-		if(!("".equals(paramVals[0])) && paramVals.length == 1) {
+		if(paramVals!=null && !("".equals(paramVals[0])) && paramVals.length == 1) {
 			paramVals = params.get("price_high");
-			if(!("".equals(paramVals[0])) && paramVals.length == 1) {
+			if(paramVals!=null && !("".equals(paramVals[0])) && paramVals.length == 1) {
 
 				if(count == 0) {
 					sb.append(PRICE_CLAUSE);
@@ -178,6 +180,18 @@ public class BondSearchDao {
 				isDefined[7] = true;
 				++count;
 			}			
+		}
+		
+		paramVals = params.get("cusip");
+		if(paramVals!=null && !("".equals(paramVals[0])) && paramVals.length == 1) {
+			if(count == 0) {
+				sb.append(CUSIP_CLAUSE);
+			}
+			else {
+				sb.append(" AND" +CUSIP_CLAUSE);
+			}
+			isDefined[8] = true;
+			++count;
 		}
 
 
@@ -259,6 +273,11 @@ public class BondSearchDao {
 					++paramCount;
 					st.setDouble(paramCount, Double.parseDouble(params.get("price_high")[0]));
 					++paramCount;
+					responseMessage = "OK";
+				}
+				if(isDefined[8]) {
+					responseMessage = "Invalid input for CUSIP";
+					st.setString(paramCount, params.get("cusip")[0]);
 					responseMessage = "OK";
 				}
 			}
