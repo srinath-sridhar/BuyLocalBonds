@@ -66,7 +66,7 @@ $(document).on("click", ".buybutton", function () {
 	
 	$('#buy_cusip').html($(this).data('id'));
 	
-	$.getJSON("Market?cusip="+$(this).data('id'), function(data) {
+	$.getJSON("BondSearch", { cusip : $(this).data('id') }, function(data) {
 	
 	marketData = data.bonds[0];
 	
@@ -80,7 +80,7 @@ $(document).on("click", ".buybutton", function () {
 	$('#buy_price').html(marketData.price);
 	
 	}).error(function() {
-	window.location = "index.jsp";
+		window.location = "index.jsp";
 	});
 
 
@@ -106,9 +106,7 @@ $("#searchform").submit(function(event) {
 	alertHighLowValuesForSearch("Price", "#price_high", "#price_low");
 	*/
 	
-	if (refreshData($("#searchform").serialize())) {
-		$("#searchModal").modal('hide');
-	}
+	refreshData($("#searchform").serialize(), $("#searchModal"));
 
 });
 
@@ -119,14 +117,18 @@ function alertHighLowValuesForSearch(typeString, firstString, secondString) {
 
 
 // GETS SEARCH RESULTS AND DISPLAYS IT TO MAIN TABLE
-function refreshData(postinfo) {
+function refreshData(postinfo, delegate) {
 
 	$('#bond_market_data > tbody:last').html("");
 	
 	$.post("BondSearch", postinfo, function(marketData) {
-	
+
 		if (marketData.errorCode != 200) {
 			alert(marketData.responseMessage);
+			
+		}
+		else if (delegate != null) {
+			$(delegate).modal("hide");
 		}
 		
 		$.each(marketData.bonds, function(key, value) {
@@ -142,16 +144,15 @@ function refreshData(postinfo) {
 			$('#row_'+key).append('<td style="text-align: right;">'+value.quantityAvailable+'</td>');
 		});
 		
+		
+		if ($('#bond_market_data > tbody:last').html().length == 0) {
+			$('#bond_market_data > tbody:last').append('<td colspan="9"><div style="text-align: center; padding: 30px 0px;">Could not find anything to match that criteria! <a href="#searchModal" data-toggle="modal">Search again</a></div></td>');
+		}
 	
 	}).error(function() {
 		window.location = "index.jsp";
 	});
-	
-	if (marketData.errorCode != 200)
-		return false;
-	else
-		return true;
-		
+
 }
 	
 	

@@ -30,7 +30,7 @@
            </li>
            <% if (reqURI.contains("market.jsp")) { %>
            <li class="divider-vertical"></li>
-           <li><a href="#searchModal" data-toggle="modal" href="#">Search</a></li>
+           <li><a href="#searchModal" data-toggle="modal">Search</a></li>
            <% } %>
          </ul>
     	</div>

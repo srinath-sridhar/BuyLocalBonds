@@ -8,10 +8,43 @@
 <div class="modal-body">
 
 <div class="controls controls-row">
-<label class="span3">Rating: </label>
-<input class="span1" type="text" placeholder="Low" name="rating_low" />
-<input class="span1" type="text" placeholder="High" name="rating_high" />
-</div>
+<label class="span2">Rating: </label>
+<select class="span2" name="rating_low">
+	<option value="">No Filter</option>
+	<option>AAA</option>
+	<option>AA+</option>
+	<option>AA</option>
+	<option>A+</option>
+	<option>A</option>
+	<option selected>BBB</option>
+	<option>BB</option>
+	<option>B</option>
+	<option>CCC</option>
+	<option>CC</option>
+	<option>CI</option>
+	<option>R</option>
+	<option>SD</option>
+	<option>D</option>
+	<option>NR</option>
+</select>
+<select class="span2" name="rating_high">
+	<option value="">No Filter</option>
+	<option selected>AAA</option>
+	<option>AA+</option>
+	<option>AA</option>
+	<option>A+</option>
+	<option>A</option>
+	<option>BBB</option>
+	<option>BB</option>
+	<option>B</option>
+	<option>CCC</option>
+	<option>CC</option>
+	<option>CI</option>
+	<option>R</option>
+	<option>SD</option>
+	<option>D</option>
+	<option>NR</option>
+</select></div>
 <div class="controls controls-row">
 <label class="span3">Coupon (%): </label>
 <input class="span1" type="text" placeholder="Low" name="coupon_low" />
