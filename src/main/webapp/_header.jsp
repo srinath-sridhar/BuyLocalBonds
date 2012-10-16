@@ -9,34 +9,34 @@
 
     <!-- Le styles -->
     <link href="lib/css/bootstrap.css" rel="stylesheet">
-	<style>
+<style>
       body {
         padding-top: 20px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
       
     @media (max-width: 800px) {
-    	.hidden-800 {
-        	display:none !important;
-    	}
-    	
-    	#bond_market_data thead {
-    		font-size: x-small;
-    	}
-    	
-    	#bond_market_data tbody {
-    		font-size: x-small;
-    	}
-    	
-    	#bond_market_data tbody tr td {
-    		padding: 2px;
-    	}
-    	
-	}
+     .hidden-800 {
+         display:none !important;
+     }
+    
+     #bond_market_data thead {
+     font-size: x-small;
+     }
+    
+     #bond_market_data tbody {
+     font-size: x-small;
+     }
+    
+     #bond_market_data tbody tr td {
+     padding: 2px;
+     }
+    
+}
     </style>
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
 
     <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="lib/ico/favicon.ico">
