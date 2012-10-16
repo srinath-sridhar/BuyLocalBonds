@@ -9,6 +9,7 @@ public class BuyOrder {
 	private String cusip;
 	private int quantity;
 	private double price;
+	private String status;
 	
 	public int getCustomerId() {
 		return customerId;
@@ -39,6 +40,12 @@ public class BuyOrder {
 	}
 	public void setPrice(double price) {
 		this.price = price;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 		
 	
