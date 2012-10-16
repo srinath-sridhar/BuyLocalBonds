@@ -47,27 +47,44 @@ $(document).ready(function() {
 	
 });
 
-
 //UPDATES LIST OF CUSTOMERS FOR TRADERS
 function refreshCustomerList() {
 	
-	$.getJSON("CustomerSerlvet", function(data) {
+	$.getJSON("CustomerServlet", function(data) {
 		
 		if (data.errorCode != 200) {
 			alert(data.responseMessage);
 			return false;
 		}
 		
-		$("#dd-currentCustomer").html(data.activeCustomer.customerID);
+		$("#dd-currentCustomer").html(data.activeCustomer.customerName);
 		
 		$("#dd-customerList").html("");
 		
 		$.each(data.customers, function(key, value) {
-			$("#dd-customerList").append("<li><a href=\"#\" class=\"customerFromCustomerList\" customer-id=\"" + value.customerID + "\">" + value.customerName + "</a></li>");
+			$("#dd-customerList").append("<li><a href=\"#\" class=\"customerFromCustomerList\" customer-id=\"" + value.customerId + "\">" + value.customerName + "</a></li>");
 		});
 		
+	}).error(function() {
+		window.location = "index.jsp";
 	});
 	
 }
+
+
+
+$(".customerFromCustomerList").live('click',function() {
+	
+	customer = this;
+	
+	$.post("CustomerServlet", { newCurrentCustomer : $(this).attr("customer-id") }, function(data) {
+		$("#dd-currentCustomer").html($(customer).html());
+		
+	}).error(function() {
+		window.location = "index.jsp";
+	});
+});
+
+
 
 </script>
