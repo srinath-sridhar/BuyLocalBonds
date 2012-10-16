@@ -68,16 +68,17 @@ $(document).on("click", ".buybutton", function () {
 	
 	$.getJSON("BondSearch", { cusip : $(this).data('id') }, function(data) {
 	
-	marketData = data.bonds[0];
-	
-	$('#buy_cusip').html(marketData.cusip);
-	$('#buy_rating').html(marketData.rating);
-	$('#buy_currentYield').html(marketData.currentYield);
-	$('#buy_yieldToMaturity').html(marketData.yieldToMaturity);
-	$('#buy_maturityDate').html(marketData.maturityDate);
-	$('#buy_quantityAvailable').html(marketData.quantityAvailable);
-	$('#buy_parValue').html(marketData.parValue);
-	$('#buy_price').html(marketData.price);
+		marketData = data.bonds[0];
+		
+		$('#buy_hidden_cusip').val(marketData.cusip);
+		$('#buy_cusip').html(marketData.cusip);
+		$('#buy_rating').html(marketData.rating);
+		$('#buy_currentYield').html(marketData.currentYield);
+		$('#buy_yieldToMaturity').html(marketData.yieldToMaturity);
+		$('#buy_maturityDate').html(marketData.maturityDate);
+		$('#buy_quantityAvailable').html(marketData.quantityAvailable);
+		$('#buy_parValue').html(marketData.parValue);
+		$('#buy_price').html(marketData.price);
 	
 	}).error(function() {
 		window.location = "index.jsp";
@@ -90,6 +91,16 @@ $("#buy_quantity").keyup(function() {
 	if (jQuery.isNumeric($(this).val())) {
 	$("#buy_purchaseAmount").html("$" + ($(this).val() * $("#buy_price").html()).toFixed(2));
 	}
+});
+
+$("#buyform").submit(function(event) {
+	
+	//prevent default form submittion
+	event.preventDefault();
+	$.post("BuyBond", $("#buyform").serialize(), function(data) {
+		refreshData($("#searchform").serialize(), $("#buyModal"));
+	});
+
 });
 
 $("#searchform").submit(function(event) {
