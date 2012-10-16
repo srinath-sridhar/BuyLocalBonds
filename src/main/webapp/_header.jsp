@@ -9,6 +9,7 @@
 
     <!-- Le styles -->
     <link href="lib/css/bootstrap.css" rel="stylesheet">
+    <link href="lib/css/main.css" rel="stylesheet">
 <style>
       body {
         padding-top: 20px; /* 60px to make the container go all the way to the bottom of the topbar */
