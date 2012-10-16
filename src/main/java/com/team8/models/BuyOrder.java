@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class BuyOrder {
 	
+	private int transactionId;
+
 	private int customerId;
 	private Date orderDate;
 	private String cusip;
@@ -11,6 +13,12 @@ public class BuyOrder {
 	private double price;
 	private String status;
 	
+	public int getTransactionId() {
+		return transactionId;
+	}
+	public void setTransactionId(int transactionId) {
+		this.transactionId = transactionId;
+	}
 	public int getCustomerId() {
 		return customerId;
 	}

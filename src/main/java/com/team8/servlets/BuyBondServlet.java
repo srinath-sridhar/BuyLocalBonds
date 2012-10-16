@@ -10,52 +10,53 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
-import com.team8.dao.GetCustomersDao;
-import com.team8.responses.GetCustomersResponse;
+import com.team8.dao.BuyBondDao;
+import com.team8.responses.BuyOrderResponse;
 import com.team8.utils.SessionMgmtUtil;
 
 /**
- * Servlet implementation class CustomerServlet
+ * Servlet implementation class BuyBond
  */
-public class CustomerServlet extends HttpServlet {
+public class BuyBondServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public CustomerServlet() {
-		super();
-	}
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public BuyBondServlet() {
+        super();
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		GetCustomersDao dao = new GetCustomersDao();
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
-
+		BuyBondDao dao = new BuyBondDao();
+		BuyOrderResponse bor = null;
+		int traderId, customerId;
+		
 		if(!SessionMgmtUtil.checkUserLoggedIn(request)) {
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			return;
 		}
 		try {
 			response.setContentType("application/json");
-			int customerId = (int) session.getAttribute("userId");
-			GetCustomersResponse gcr = dao.getCustomers(customerId);
 			
-			if(session.getAttribute("currentCustomer") == null) {
-				session.setAttribute("currentCustomer", gcr.getActiveCustomer().getCustomerId());
-			}
+			traderId = (int) session.getAttribute("userId");
+			customerId = (int) session.getAttribute("currentCustomer");
+			bor = dao.buyBond(request.getParameterMap(), customerId, traderId);
 			
 			Gson gson = new Gson();
-			out.print(gson.toJson(gcr));
+			out.print(gson.toJson(bor));
 			out.close();
 		}
 		catch(Exception e) {
 			out.close();
 			e.printStackTrace();
 		}
+		
 	}
 
 	/**

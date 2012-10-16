@@ -41,29 +41,41 @@ public class BuyBondDao {
 		try {
 			//check if trader is allowed to trade
 			if(isTraderAuthorizedForUser(customerId, traderId)) {
-				//check if customer has enough credit
+
+				//Extract params for 
+
 				String totalAmount = params.get("amount")[0];
 				String cusip = params.get("cusip")[0];
 				int quantity = Integer.parseInt(params.get("quantity")[0]);
-				
+
+
+				//check if customer has enough credit
 				if(doesCustomerHaveCredit(totalAmount)) {
-													
+
+					// check if there is enough quantity in market					
 					if(checkBondQuantity(cusip, quantity)) {
-						
+
+						// all is well. update bond quantity
 						if(updateBondQuantity(cusip, quantity)) {	
-							
-							if(updateCustomerCredit(customerId, Double.parseDouble(totalAmount)));
+
+							//update customer credit limit
+							if(updateCustomerCredit(customerId, Double.parseDouble(totalAmount))) {
+
+								//Set the parameters for the buy order here
+								bo.setCusip(cusip);
+								bo.setCustomerId(customerId);
+								bo.setPrice(Double.parseDouble(params.get("price")[0]));
+								bo.setQuantity(quantity);
+								bo.setStatus("Order Placed");
+							}
 						}
 					}
 				}
 			}
 		}catch(Exception ex) {
-
+			if(ex instanceof NullPointerException) {
+			}
 		}
-
-
-		//place the order {check qty and update}
-		//Update portfolio
 
 		bor.setErrorCode(errorCode);
 		bor.setResponseMessage(responseMessage);
