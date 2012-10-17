@@ -2,6 +2,8 @@
 <div class="container">
 <%@include file="_menu.jsp" %>
 
+<div class="alert alert-info" id="informationAlert"></div>
+
 <div class="row">
   <div class="span10">
 <table class="table table-striped" id="bond_market_data">
@@ -40,7 +42,7 @@
 <script>
 $(document).ready(function() {
 	
-	//refreshData("");
+	refreshData();
 	
 	$('#buyModal').modal({
 		backdrop : true,
@@ -51,8 +53,7 @@ $(document).ready(function() {
 		backdrop : true,
 		show : false
 	});
-	
-	
+
 	
 	$('#thcusip').tooltip({ placement : "bottom", title : "Uniform Security Identification Number" });
 	$('#thcoupon').tooltip({ placement : "bottom", title: "Coupon"});
@@ -116,7 +117,7 @@ $("#searchform").submit(function(event) {
 	alertHighLowValuesForSearch("Par Value", "#parValue_high", "#parValue_low");
 	alertHighLowValuesForSearch("Price", "#price_high", "#price_low");
 	*/
-	
+
 	refreshData($("#searchform").serialize(), $("#searchModal"));
 
 });
@@ -128,18 +129,33 @@ function alertHighLowValuesForSearch(typeString, firstString, secondString) {
 
 
 // GETS SEARCH RESULTS AND DISPLAYS IT TO MAIN TABLE
-function refreshData(postinfo, delegate) {
-
+function refreshData(postinfo, modalDelegate) {
+	
+	if (postinfo == null)
+		postinfo = $.cookie("marketPostInfo");
+	else
+		$.cookie("marketPostInfo", postinfo);
+	
+	
+	if ($.cookie('marketPostInfo').length > 0)
+		$('#informationAlert').html('<strong>Search Filter(s): </strong> ' + $.cookie('marketPostInfo').replace( /\&/g, ' &nbsp;' ));
+	else
+		$('#informationAlert').hide();
+	
+	
 	$('#bond_market_data > tbody:last').html("");
 	
 	$.post("BondSearch", postinfo, function(marketData) {
 
 		if (marketData.errorCode != 200) {
-			alert(marketData.responseMessage);
 			
+			if (modalDelegate == null)
+				alertOnTable(marketData.responseMessage);
+			else
+				alert(marketData.responseMessage);
 		}
-		else if (delegate != null) {
-			$(delegate).modal("hide");
+		else if (modalDelegate != null) {
+			$(modalDelegate).modal("hide");
 		}
 		
 		$.each(marketData.bonds, function(key, value) {
@@ -148,25 +164,24 @@ function refreshData(postinfo, delegate) {
 			$('#row_'+key).append('<td>'+value.cusip+'</td>');
 			$('#row_'+key).append('<td class="hidden-800">'+value.rating+'</td>');
 			$('#row_'+key).append('<td>'+value.coupon.toFixed(2)+'%</td>');
-			$('#row_'+key).append('<td>###%</td>');
-			$('#row_'+key).append('<td class="hidden-800">###%</td>');
+			$('#row_'+key).append('<td>'+value.currentYield+'%</td>');
+			$('#row_'+key).append('<td class="hidden-800">'+value.yieldToMaturity+'%</td>');
 			$('#row_'+key).append('<td>'+value.maturityDate.substring(0,12)+'</td>');
 			$('#row_'+key).append('<td style="text-align: right;">$'+value.price.toFixed(4)+'</td>');
 			$('#row_'+key).append('<td style="text-align: right;">'+value.quantityAvailable+'</td>');
 		});
-		
-		
-		if ($('#bond_market_data > tbody:last').html().length == 0) {
-			$('#bond_market_data > tbody:last').append('<td colspan="9"><div style="text-align: center; padding: 30px 0px;">Could not find anything to match that criteria! <a href="#searchModal" data-toggle="modal">Search again</a></div></td>');
-		}
-	
+
 	}).error(function() {
 		window.location = "index.jsp";
 	});
 
 }
 	
-	
+//SHOW ALERTS ON THE MARKET TABLE
+function alertOnTable(str) {
+	$('#bond_market_data > tbody:last').append('<td colspan="9"><div style="text-align: center; padding: 30px 0px;">' + str + '</div></td>');	
+}
+
 // XOR FOR JQUERY STRING OBJECT
 function xorJqueryStringCompare(a, b) {
 	

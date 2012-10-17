@@ -33,9 +33,10 @@
 <%@ include file="_modal_buy.jsp" %>
    
 <script>
+
 $(document).ready(function() {
 	
-	//refreshData("");
+	refreshData(null);
 	
 	$('#buyModal').modal({
 		backdrop : true,
@@ -91,26 +92,19 @@ $("#sellform").submit(function(event) {
 
 });
 
-
-function alertHighLowValuesForSearch(typeString, firstString, secondString) {
-	if (xorJqueryStringCompare(firstString, secondString))
-		alert("Search requires high and low for " + typeString.toUpperCase() + ".");
-}
-
-
 // GETS SEARCH RESULTS AND DISPLAYS IT TO MAIN TABLE
-function refreshData(delegate) {
+function refreshData(modalDelegate) {
 
 	$('#bond_market_data > tbody:last').html("");
 	
 	$.getJSON("Portfolio", function(marketData) {
 
 		if (marketData.errorCode != 200) {
-			alert(marketData.responseMessage);
+			alertOnTable(marketData.responseMessage);
 			
 		}
-		else if (delegate != null) {
-			$(delegate).modal("hide");
+		else if (modalDelegate != null) {
+			$(modalDelegate).modal("hide");
 		}
 		
 		$.each(marketData.holdings, function(key, value) {
@@ -118,23 +112,22 @@ function refreshData(delegate) {
 			$('#row_'+key).append('<td class="action_buttons"><a class="sellbutton" href="#sellModal" role="button" data-toggle="modal" data-id="'+value.cusip+'">SELL</a></td>');
 			$('#row_'+key).append('<td>'+value.cusip+'</td>');
 			$('#row_'+key).append('<td>'+value.purchaseDate+'</td>');
-			$('#row_'+key).append('<td>'+value.purchaseQuantity+'%</td>');
-			$('#row_'+key).append('<td>'+value.purchasePrice+'</td>');
-			$('#row_'+key).append('<td>'+value.currentPrice+'</td>');
+			$('#row_'+key).append('<td>'+value.purchaseQuantity+'</td>');
+			$('#row_'+key).append('<td>$'+value.purchasePrice.toFixed(4)+'</td>');
+			$('#row_'+key).append('<td>$'+value.currentPrice.toFixed(4)+'</td>');
 		});
 		
-		
-		if ($('#bond_market_data > tbody:last').html().length == 0) {
-			$('#bond_market_data > tbody:last').append('<td colspan="6"><div style="text-align: center; padding: 30px 0px;">Could not find anything to match that criteria! <a href="#searchModal" data-toggle="modal">Search again</a></div></td>');
-		}
 	
 	}).error(function() {
 		window.location = "index.jsp";
 	});
 
 }
-	
-	
+// SHOW ALERTS ON THE PORTFOLIO TABLE
+function alertOnTable(str) {
+	$('#bond_market_data > tbody:last').append('<td colspan="6"><div style="text-align: center; padding: 30px 0px;">' + str + '</div></td>');	
+}
+
 // XOR FOR JQUERY STRING OBJECT
 function xorJqueryStringCompare(a, b) {
 	

@@ -47,6 +47,7 @@
     <link rel="apple-touch-icon-precomposed" href="lib/ico/apple-touch-icon-57-precomposed.png">
 
    <script src="lib/js/jquery.js"></script>
+   <script src="lib/js/jquery.cookie.js"></script>
    <script src="lib/js/bootstrap.js"></script>
    
   </head>
