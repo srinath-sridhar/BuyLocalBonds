@@ -47,14 +47,13 @@ public class SellBondDao {
 				//Extract params from map				
 				String cusip = params.get("cusip")[0];
 				int quantity = Integer.parseInt(params.get("quantity")[0]);
-				int sellQuantity = -1;
 				double totalAmount = 0.0;
 				
 				//check if customer has enough bonds of type to sell
 				if(doesCustomerHaveEnoughBonds(cusip, quantity, customerId)) {
 					
 					//update bond quantity
-					if(updateBondQuantity(cusip, sellQuantity)) {
+					if(updateBondQuantity(cusip, quantity)) {
 
 						//update customer balance
 						totalAmount = quantity * currentBondPrice;

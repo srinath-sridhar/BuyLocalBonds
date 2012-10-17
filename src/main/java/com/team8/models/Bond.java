@@ -15,13 +15,12 @@ public class Bond {
 	
 	public Bond() {
 		
-		cusip = EncryptionUtil.md5("" + (Math.random() * 100000 + 1000));
-		cusip = cusip.substring(0, 9);		
-		rating = "AAA";		
-		parValue = 100;
-		coupon = Math.round((Math.random() * 0.15 + 0.01) * 100) / 100.0;
-		price = Math.round((Math.random() * 10 + 95) * 100000) / 100000.0;
-		quantityAvailable = (int) (Math.random() * 50) * 5;
+		cusip = "";		
+		rating = "NR";		
+		parValue = 0;
+		coupon = 0.0;
+		price = 0.0;
+		quantityAvailable = 0;
 		maturityDate = new Date();				
 	}
 	

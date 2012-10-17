@@ -19,6 +19,8 @@ public class UserAuthenticationDao {
 
 	private Connection databaseConnection = null;
 
+
+
 	public UserAuthenticationDao() {
 		databaseConnection = DataBaseConnectionUtil.getDatabaseConnection();
 		isDefined = new boolean[2];
@@ -29,6 +31,11 @@ public class UserAuthenticationDao {
 
 	public Connection getDatabaseConnection() {
 		return databaseConnection;
+	}
+	
+	//For test purposes
+	public void setDatabaseConnection(Connection databaseConnection) {
+		this.databaseConnection = databaseConnection;
 	}
 
 	private PreparedStatement createSqlStmt(Map<String, String[]> params) throws SQLException {
@@ -57,7 +64,7 @@ public class UserAuthenticationDao {
 		String username = params.get("username")[0];
 		String password = params.get("password")[0];
 		
-		if(username == null || password == null) {
+		if(("".equals(username))|| ("".equals(password))) {
 			return null;
 		}
 		
