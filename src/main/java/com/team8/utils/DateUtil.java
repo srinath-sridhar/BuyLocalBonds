@@ -1,6 +1,7 @@
 package com.team8.utils;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.ParseException;
 
 public class DateUtil {
@@ -25,9 +26,6 @@ public class DateUtil {
 	
 	public static Date convertLongToDate(long inputDate) {
 		java.util.Date dt;
-
-		java.text.DateFormat sdf = 
-		     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
  
 		try {
 			dt = new Date(inputDate);
@@ -35,8 +33,9 @@ public class DateUtil {
 			e.printStackTrace();
 			return null;
 		}
+		@SuppressWarnings("deprecation")
 		java.sql.Date date = new Date(dt.getYear(), dt.getMonth(), dt.getDate());
 		return date;
 	}
-
+	
 }

@@ -19,7 +19,7 @@ public class PortfolioUpdateDao {
 	private static final String INSERT_SQL = "INSERT INTO portfolio  (CustomerId, CUSIP, Quantity, AveragePrice, LastUpdateDate) VALUES (?,?,?,?,?)";
 	private static final String UPDATE_SQL = "UPDATE portfolio SET Quantity = ?, AveragePrice = ?, LastUpdateDate = ? WHERE CUSIP = ? AND CustomerId = ?";
 	private static final String SELECT_SQL = "SELECT * FROM portfolio WHERE CUSIP = ? AND CustomerId = ?";
-	private static final String RET_PORTFOLIO_SQL = "SELECT * FROM portfolio WHERE CustomerId = ?";
+	private static final String RET_PORTFOLIO_SQL = "SELECT * FROM portfolio WHERE CustomerId = ? AND Quantity > 0";
 
 	private int errorCode;
 	private String responseMessage;
@@ -91,6 +91,7 @@ public class PortfolioUpdateDao {
 				st.setDate(3, DateUtil.convertLongToDate(System.currentTimeMillis()));
 				st.setString(4, sellOrder.getCusip());
 				st.setInt(5, sellOrder.getCustomerId());
+
 				st.executeUpdate();
 			}
 

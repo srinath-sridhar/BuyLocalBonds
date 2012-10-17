@@ -77,6 +77,7 @@ public class CustomerServlet extends HttpServlet {
 			return;
 		}
 		try {
+			response.setContentType("application/json");
 			int changedCustomerId = Integer.parseInt(request.getParameter("newCurrentCustomer"));
 			session.setAttribute("currentCustomer", changedCustomerId);
 			response.setStatus(HttpServletResponse.SC_OK);
