@@ -40,6 +40,8 @@
 </div>
 
 <script>
+// PROTOTYPE
+postCustomerUpdate = function() {};
 
 $(document).ready(function() {
 	
@@ -83,6 +85,8 @@ $(".customerFromCustomerList").live('click',function() {
 	}).error(function() {
 		window.location = "index.jsp";
 	});
+	
+	postCustomerUpdate();
 });
 
 

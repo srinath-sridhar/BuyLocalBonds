@@ -98,10 +98,18 @@ $("#buyform").submit(function(event) {
 	
 	//prevent default form submittion
 	event.preventDefault();
-	$.post("BuyBond", $("#buyform").serialize(), function(data) {
-		refreshData($("#searchform").serialize(), $("#buyModal"));
-	});
-
+	
+	if ($('#buy_quantity').val() > $('#buy_quantityAvailable').html() ) {
+		alert("Error: Cannot exceed the available quantity in market.");
+	}
+	else if ($('#buy_quantity').val() < 1) {
+		alert("Error: Cannot buy less than 1.");
+	}
+	else {
+		$.post("BuyBond", $("#buyform").serialize(), function(data) {
+			refreshData($("#searchform").serialize(), $("#buyModal"));
+		});
+	}
 });
 
 $("#searchform").submit(function(event) {
@@ -188,6 +196,10 @@ function xorJqueryStringCompare(a, b) {
 	return ((aString.length == 0 || bString.length == 0) &&
 	!(aString.length == 0 && bString.length == 0));
 
+}
+
+function postCustomerUpdate() {
+	refreshData(null);
 }
 </script>
 
