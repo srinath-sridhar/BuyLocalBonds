@@ -1,7 +1,8 @@
 <% String reqURI = request.getRequestURI(); %>
 <div class="container" style="padding: 0px 0px 10px 10px;">
-<div style="float: right; font-size: large; font-weight: bold; padding: 10px 20px 0px 0px; color: #999;">dbBLB</div>
-<img src="lib/img/db.png" width="120" height="25" />
+<div style="float: right; font-size: small; padding: 0px 20px 0px 0px; "><a href="UserAuthentication?logout=1">logout</a></div>
+<div style="float: right; clear: right; font-size: large; font-weight: bold; padding: 10px 20px 0px 0px; color: #999;">dbBLB</div>
+<div style="padding-top: 10px;"><img src="lib/img/db.png" width="120" height="25" /></div>
 </div>
  <div class="navbar">
   <div class="navbar-inner">
@@ -34,7 +35,11 @@
            <% } %>
          </ul>
     	</div>
- 
+ 		<div class="nav pull-right" style="top: 10px; width: 100px;">
+ 			<div class="progress progress-info">
+			  <div class="bar" style="width: 60%;"></div>
+			</div>
+ 		</div>
     </div>
   </div>
 </div>

@@ -1,13 +1,25 @@
 <%@ include file="_header.jsp" %>
+<div class="container" style="padding: 0px 0px 10px 10px;">
+	<div style="clear: right;float: right; font-size: large; font-weight: bold; padding: 10px 20px 0px 0px; color: #999;">dbBLB</div>
+	<img src="lib/img/db.png" width="120" height="25" />
+	
+</div>
 
     <div class="container">
-		<div class="page-header">
-		  <h1>Buy Local Bonds <small class="hidden-800">Team 8</small></h1>
+    
+    	<div class="navbar">
+		 <div class="navbar-inner">
+		  <div class="container">
+		
+		    </div>
+		  </div>
 		</div>
+		
+
       <!-- Example row of columns -->
       <div class="row">
 
-        <div class="span5" style="padding-top: 20px;">
+        <div style="margin: 0 auto; width: 500px; padding-top: 20px;">
         
 			<form class="form-horizontal" id="loginForm" method="post">
 			  <div class="control-group">
@@ -31,13 +43,6 @@
 			<div id="loginOutcome" style="color: #F00; text-align: center;"></div>
         </div>
         
-       <div class="span7 hidden-800">
-	   <!--  <div style="float: right"><img src="lib/img/logo.gif" /></div> -->
-          <h2>Heading</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn" href="#">View details &raquo;</a></p>
-       </div>
-       
       </div>
 
       <hr>
