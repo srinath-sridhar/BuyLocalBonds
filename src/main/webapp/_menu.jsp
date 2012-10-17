@@ -1,6 +1,6 @@
 <% String reqURI = request.getRequestURI(); %>
 <div class="container" style="padding: 0px 0px 10px 10px;">
-<div style="float: right; font-size: small; padding: 0px 20px 0px 0px; "><a href="UserAuthentication?logout=1">logout</a></div>
+<div style="float: right; font-size: small; padding: 0px 20px 0px 0px; "><a href="logout.jsp">logout</a></div>
 <div style="float: right; clear: right; font-size: large; font-weight: bold; padding: 10px 20px 0px 0px; color: #999;">dbBLB</div>
 <div style="padding-top: 10px;"><img src="lib/img/db.png" width="120" height="25" /></div>
 </div>
@@ -21,6 +21,7 @@
            <li <% if (reqURI.contains("home.jsp")) { %>class="active"<% } %>><a href="home.jsp">Home</a></li>
            <li <% if (reqURI.contains("market.jsp")) { %>class="active"<% } %>><a href="market.jsp">Buy</a></li>
            <li <% if (reqURI.contains("portfolio.jsp")) { %>class="active"<% } %>><a href="portfolio.jsp">Portfolio</a></li>
+           <li><a href="#">Help</a></li>
          </ul>
          
          <ul class="nav pull-right">

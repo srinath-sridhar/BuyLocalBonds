@@ -44,6 +44,8 @@ $(document).ready(function() {
 	
 	refreshData();
 	
+	window.setInterval(refreshData, 2000);
+	
 	$('#buyModal').modal({
 		backdrop : true,
 		show : false
@@ -133,22 +135,22 @@ function alertHighLowValuesForSearch(typeString, firstString, secondString) {
 // GETS SEARCH RESULTS AND DISPLAYS IT TO MAIN TABLE
 function refreshData(postinfo, modalDelegate) {
 	
+	
+	// STORE SEARCH FILTER IN COOKIE OR GET A PREVIOUS SEARCH COOKIE
 	if (postinfo == null)
 		postinfo = $.cookie("marketPostInfo");
 	else
 		$.cookie("marketPostInfo", postinfo);
 	
-	
+	// FILTER INFORMATION IN BLUE INFO BAR
 	if ($.cookie('marketPostInfo').length > 0)
 		$('#informationAlert').html('<strong>Search Filter(s): </strong> ' + $.cookie('marketPostInfo').replace( /\&/g, ' &nbsp;' ));
 	else
 		$('#informationAlert').hide();
 	
-	
-	$('#bond_market_data > tbody:last').html("");
-	
+	// REQUEST JSON DATA FROM BONDSEARCH SERVLET
 	$.post("BondSearch", postinfo, function(marketData) {
-
+		
 		if (marketData.errorCode != 200) {
 			
 			if (modalDelegate == null)
@@ -160,6 +162,9 @@ function refreshData(postinfo, modalDelegate) {
 			$(modalDelegate).modal("hide");
 		}
 		
+		$('#bond_market_data > tbody:last').html("");
+		
+		// GO THROUGH EACH ELEMENT IN CONTAINER AND CREATE NEW ROW IN MARKET TABLE
 		$.each(marketData.bonds, function(key, value) {
 			$('#bond_market_data > tbody:last').append('<tr id="row_' + key + '"></tr>');
 			$('#row_'+key).append('<td class="action_buttons"><a class="buybutton" href="#buyModal" role="button" data-toggle="modal" data-id="'+value.cusip+'">BUY</a></td>');
@@ -172,7 +177,8 @@ function refreshData(postinfo, modalDelegate) {
 			$('#row_'+key).append('<td style="text-align: right;">$'+value.price.toFixed(4)+'</td>');
 			$('#row_'+key).append('<td style="text-align: right;">'+value.quantityAvailable+'</td>');
 		});
-
+	
+	// ON FAILURE TO AUTHENTICATE TAKE USER TO LOGIN SCREEN
 	}).error(function() {
 		window.location = "index.jsp";
 	});
@@ -192,6 +198,7 @@ function xorJqueryStringCompare(a, b) {
 
 }
 
+// REFRESH DATA AFTER CHOOSING A NEW CUSTOMER FROM CUSTOMER LIST IN MENU.JSP
 function postCustomerUpdate() {
 	refreshData(null);
 }
