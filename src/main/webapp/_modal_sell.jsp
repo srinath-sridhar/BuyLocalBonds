@@ -53,6 +53,7 @@
 	</div>
 </div>
 <div class="modal-footer">
+<input type="hidden" name="cusip" id="sell_hidden_cusip" value="" />
 <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 <input class="btn btn-primary" type="submit" value="Submit Sell Order" />
 </div>
