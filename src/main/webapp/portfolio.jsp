@@ -88,17 +88,17 @@ $("#sellform").submit(function(event) {
 	//prevent default form submittion
 	event.preventDefault();
 	
-	if ($('#sell_quantity').val() > $('#sell_portfolioQuantity').html() ) {
+/*	if ($('#sell_quantity').val() > $('#sell_portfolioQuantity').html() ) {
 		alert("Error: Cannot exceed the available quantity in portfolio.");
 	}
 	else if ($('#sell_quantity').val() < 1) {
 		alert("Error: Cannot sell less than 1.");
 	}
-	else {
+	else { */
 		$.post("SellBond", $("#sellform").serialize(), function(data) {
 			refreshData($("#searchform").serialize(), $("#sellModal"));
 		});
-	}
+//	}
 });
 
 // GETS SEARCH RESULTS AND DISPLAYS IT TO MAIN TABLE
