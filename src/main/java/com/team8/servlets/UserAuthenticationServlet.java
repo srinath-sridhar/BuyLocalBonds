@@ -29,19 +29,29 @@ public class UserAuthenticationServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-
+ 
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doPost(request, response);
+	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		response.setContentType("text/plain");
 		PrintWriter pw = response.getWriter();
-
+		HttpSession session = request.getSession();
 		try {
-
+			if(request.getParameter("logout") != null) {
+				session.setAttribute("username", null);
+				session.setAttribute("userId", null);
+				session.setAttribute("currentCustomer", null);
+				pw.write("logout");
+				pw.close();
+				return;
+			}
 			UserAuthenticationDao dao = new UserAuthenticationDao();
 			Customer user = dao.isUserAuthenticated(request.getParameterMap());
 			if(user != null)
 			{
-				HttpSession session = request.getSession();
+				session = request.getSession();
 				session.setAttribute("username", user.getCustomerName());
 				session.setAttribute("userId", user.getCustomerId());
 				pw.write("success");

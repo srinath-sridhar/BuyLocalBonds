@@ -90,6 +90,8 @@ public class BuyBondDao {
 
 	private boolean doesCustomerHaveCredit(double totalAmount) {
 		if(previousCustomerLimit < totalAmount) {
+			errorCode = 111;
+			responseMessage = "Customer does not have enough credit for purchase";
 			return false;
 		}
 		return true;
